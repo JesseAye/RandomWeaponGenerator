@@ -1,12 +1,4 @@
-﻿using RandomWeaponGenerator;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WeaponGenerator;
 using System.Windows.Forms;
 
 namespace FormForWeaponGenerator
@@ -21,7 +13,7 @@ namespace FormForWeaponGenerator
 
 		public void ReferenceWeaponGenerator()
 		{
-			WeaponGenerator weaponGen = new();
+			WeaponGenerator.WeaponGenerator weaponGen = new();
 			Weapon weapon = weaponGen.GenerateRandomWeapon();
 
 			txtbxWeapon.Text = weapon.WeaponTypeName;

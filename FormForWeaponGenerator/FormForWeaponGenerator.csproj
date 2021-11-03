@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WeaponGenerator\WeaponGeneratorDLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="WeaponGenerator">
       <HintPath>..\WeaponGenerator\bin\Debug\net5.0\WeaponGenerator.dll</HintPath>
     </Reference>

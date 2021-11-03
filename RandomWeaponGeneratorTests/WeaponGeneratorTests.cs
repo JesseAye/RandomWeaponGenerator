@@ -1,41 +1,48 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RandomWeaponGenerator;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RandomWeaponGenerator.Tests
+namespace WeaponGenerator.Tests
 {
 	[TestClass()]
 	public class WeaponGeneratorTests
 	{
+		readonly int IterationsToTest = 10000;
+
 		/// <summary>
-		/// Tests to make sure WeaponGenerator.GenerateRandomWeapon() will not generate a null Weapon
+		/// Asserts WeaponGenerator.GenerateRandomWeapon() will not generate a null Weapon
 		/// </summary>
 		[TestMethod()]
 		public void GenerateRandomWeaponTest()
 		{
 			WeaponGenerator weaponGen = new();
-			Weapon weapon = weaponGen.GenerateRandomWeapon();
 
-			Assert.IsNotNull(weapon.CurrentWeapon);
+			for (int i = 0; i < IterationsToTest; i++)
+			{
+				Assert.IsNotNull(weaponGen.GenerateRandomWeapon().CurrentWeapon);
+			}
 		}
 
 		/// <summary>
-		/// Tests to make sure WeaponGenerator.GenerateRandomWeapon(int Amount) will not generate a null Weapon
+		/// Asserts WeaponGenerator.GenerateRandomWeapon(int Amount) will not generate null Weapons, and each weapon has been generated
 		/// </summary>
 		[TestMethod()]
 		public void GenerateRandomWeaponsTest()
 		{
-			int NumberToGenerate = 1000;
 			WeaponGenerator weaponGen = new();
-			Weapon[] weapons = weaponGen.GenerateRandomWeapon(NumberToGenerate);
+			weaponGen.AllWeaponsEqualChance(1);
+			Weapon[] weapons = weaponGen.GenerateRandomWeapon(IterationsToTest);
 
+			//Assert each weapon is not null
 			for (int i = 0; i < weapons.Length; i++)
 			{
 				Assert.IsNotNull(weapons[i].CurrentWeapon);
+			}
+
+			//Assert each weapon has been generated at least once
+			foreach (WeaponType weaponType in Enum.GetValues(typeof(WeaponType)))
+			{
+				Assert.IsTrue(weapons.Where(i => i.CurrentWeapon == weaponType)?.Count() > 0);
 			}
 		}
 
@@ -45,13 +52,12 @@ namespace RandomWeaponGenerator.Tests
 		[TestMethod()]
 		public void CheckValidClipSize()
 		{
-			int TimesToTest = 10;
 			WeaponGenerator weaponGen = new();
 			weaponGen.AllWeaponsEqualChance(0);
 
 			weaponGen.SingleActionRevolverChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -61,7 +67,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.SingleActionRevolverChance = 0;
 			weaponGen.DoubleActionRevolverChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -71,7 +77,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.DoubleActionRevolverChance = 0;
 			weaponGen.FullSizedHandgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -81,7 +87,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.FullSizedHandgunChance = 0;
 			weaponGen.CompactHandgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -91,7 +97,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.CompactHandgunChance = 0;
 			weaponGen.SubcompactHandgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -101,7 +107,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.SubcompactHandgunChance = 0;
 			weaponGen.MicrocompactHandgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -111,7 +117,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.MicrocompactHandgunChance = 0;
 			weaponGen.LeverActionRifleChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -121,7 +127,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.LeverActionRifleChance = 0;
 			weaponGen.BoltActionRifleChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -131,7 +137,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.BoltActionRifleChance = 0;
 			weaponGen.SemiautomaticRifleChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -141,7 +147,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.SemiautomaticRifleChance = 0;
 			weaponGen.BreakActionShotgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -151,7 +157,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.BreakActionShotgunChance = 0;
 			weaponGen.LeverActionShotgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -161,7 +167,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.LeverActionShotgunChance = 0;
 			weaponGen.PumpActionShotgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -171,7 +177,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.PumpActionShotgunChance = 0;
 			weaponGen.SemiautomaticShotgunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -181,7 +187,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.SemiautomaticShotgunChance = 0;
 			weaponGen.SubmachineGunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -191,7 +197,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.SubmachineGunChance = 0;
 			weaponGen.HeavyMachinGunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -201,7 +207,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.HeavyMachinGunChance = 0;
 			weaponGen.LightMachineGunChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 
@@ -211,7 +217,7 @@ namespace RandomWeaponGenerator.Tests
 			weaponGen.LightMachineGunChance = 0;
 			weaponGen.AssaultRifleChance = 1;
 
-			for (int i = 0; i < TimesToTest; i++)
+			for (int i = 0; i < IterationsToTest; i++)
 			{
 				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
 

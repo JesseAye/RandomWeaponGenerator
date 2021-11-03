@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RandomWeaponGenerator
+namespace WeaponGenerator
 {
 	public class WeaponGenerator
 	{
@@ -87,182 +83,12 @@ namespace RandomWeaponGenerator
 		{
 			Random rand_Weapon = new();
 			Random rand_ClipSize = new();
-			uint totalChance = TotalChance;
-			int rand = rand_Weapon.Next(0, Convert.ToInt32(totalChance));
+			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 			Weapon weapon;
 			ushort lowerClipLimit;
 			ushort upperClipLimit;
 
-			// I can't believe I made all of this. There has to be a much more effecient way of weighting the random generation
-			if (rand < SingleActionRevolverChance)
-			{
-				weapon = new Weapon() { CurrentWeapon = WeaponType.SingleActionRevolver };
-			}
-
-			else
-			{
-				rand -= SingleActionRevolverChance;
-
-				if (rand < DoubleActionRevolverChance)
-				{
-					weapon = new Weapon() { CurrentWeapon = WeaponType.DoubleActionRevolver };
-				}
-
-				else
-				{
-					rand -= DoubleActionRevolverChance;
-
-					if (rand < FullSizedHandgunChance)
-					{
-						weapon = new Weapon() { CurrentWeapon = WeaponType.FullSizedHandgun };
-					}
-
-					else
-					{
-						rand -= FullSizedHandgunChance;
-
-						if (rand < CompactHandgunChance)
-						{
-							weapon = new Weapon() { CurrentWeapon = WeaponType.CompactHandgun };
-						}
-
-						else
-						{
-							rand -= CompactHandgunChance;
-
-							if (rand < SubcompactHandgunChance)
-							{
-								weapon = new Weapon() { CurrentWeapon = WeaponType.SubcompactHandgun };
-							}
-
-							else
-							{
-								rand -= SubcompactHandgunChance;
-
-								if (rand < MicrocompactHandgunChance)
-								{
-									weapon = new Weapon() { CurrentWeapon = WeaponType.MicrocompactHandgun };
-								}
-
-								else
-								{
-									rand -= MicrocompactHandgunChance;
-
-									if (rand < LeverActionRifleChance)
-									{
-										weapon = new Weapon() { CurrentWeapon = WeaponType.LeverActionRifle };
-									}
-
-									else
-									{
-										rand -= LeverActionRifleChance;
-
-										if (rand < BoltActionRifleChance)
-										{
-											weapon = new Weapon() { CurrentWeapon = WeaponType.BoltActionRifle };
-										}
-
-										else
-										{
-											rand -= BoltActionRifleChance;
-
-											if (rand < SemiautomaticRifleChance)
-											{
-												weapon = new Weapon() { CurrentWeapon = WeaponType.SemiautomaticRifle };
-											}
-
-											else
-											{
-												rand -= SemiautomaticRifleChance;
-
-												if (rand < BreakActionShotgunChance)
-												{
-													weapon = new Weapon() { CurrentWeapon = WeaponType.BreakActionShotgun };
-												}
-
-												else
-												{
-													rand -= BreakActionShotgunChance;
-
-													if (rand < LeverActionShotgunChance)
-													{
-														weapon = new Weapon() { CurrentWeapon = WeaponType.LeverActionShotgun };
-													}
-
-													else
-													{
-														rand -= LeverActionShotgunChance;
-
-														if (rand < PumpActionShotgunChance)
-														{
-															weapon = new Weapon() { CurrentWeapon = WeaponType.PumpActionShotgun };
-														}
-
-														else
-														{
-															rand -= PumpActionShotgunChance;
-
-															if (rand < SemiautomaticShotgunChance)
-															{
-																weapon = new Weapon() { CurrentWeapon = WeaponType.SemiautomaticShotgun };
-															}
-
-															else
-															{
-																rand -= SemiautomaticShotgunChance;
-
-																if (rand < SubmachineGunChance)
-																{
-																	weapon = new Weapon() { CurrentWeapon = WeaponType.SubmachineGun };
-																}
-
-																else
-																{
-																	rand -= SubmachineGunChance;
-
-																	if (rand < HeavyMachinGunChance)
-																	{
-																		weapon = new Weapon() { CurrentWeapon = WeaponType.HeavyMachineGun };
-																	}
-
-																	else
-																	{
-																		rand -= HeavyMachinGunChance;
-
-																		if (rand < LightMachineGunChance)
-																		{
-																			weapon = new Weapon() { CurrentWeapon = WeaponType.LightMachineGun };
-																		}
-
-																		else
-																		{
-																			rand -= LightMachineGunChance;
-
-																			if (rand < AssaultRifleChance)
-																			{
-																				weapon = new Weapon() { CurrentWeapon = WeaponType.AssaultRifle };
-																			}
-
-																			else
-																			{
-																				throw new WeaponTypeNotFoundException();
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			weapon = new() { CurrentWeapon = CalculateWeaponTypeFromChance(rand) };
 
 			/* Ref
 			 * Revolver: https://en.wikipedia.org/wiki/Revolver
@@ -364,16 +190,194 @@ namespace RandomWeaponGenerator
 		public Weapon[] GenerateRandomWeapon(int Amount)
 		{
 			Weapon[] weapon = new Weapon[Amount];
+			Random rand_Weapon = new();
+			int rand;
 
 			for (int i = 0; i < Amount; i++)
 			{
-				// Calling this method several times and having a new Random object created each iteration may not be as efficient as just
-				// duplicating code and running a single Random object
-				// Difference in time seemed negligible as far as I could personally perceive
-				weapon[i] = GenerateRandomWeapon();
+				rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
+				weapon[i] = new() { CurrentWeapon = CalculateWeaponTypeFromChance(rand) };
 			}
 
 			return weapon;
+		}
+
+		/// <summary>
+		/// Calculates which weapon is to be generated. There has to be a way better way of doing this.
+		/// </summary>
+		/// <param name="rand">The randomly generated number</param>
+		/// <returns>The WeaponType to be generated</returns>
+		private WeaponType CalculateWeaponTypeFromChance(int rand)
+		{
+			if (rand < SingleActionRevolverChance)
+			{
+				return WeaponType.SingleActionRevolver;
+			}
+
+			else
+			{
+				rand -= SingleActionRevolverChance;
+
+				if (rand < DoubleActionRevolverChance)
+				{
+					return WeaponType.DoubleActionRevolver;
+				}
+
+				else
+				{
+					rand -= DoubleActionRevolverChance;
+
+					if (rand < FullSizedHandgunChance)
+					{
+						return WeaponType.FullSizedHandgun;
+					}
+
+					else
+					{
+						rand -= FullSizedHandgunChance;
+
+						if (rand < CompactHandgunChance)
+						{
+							return  WeaponType.CompactHandgun;
+						}
+
+						else
+						{
+							rand -= CompactHandgunChance;
+
+							if (rand < SubcompactHandgunChance)
+							{
+								return WeaponType.SubcompactHandgun;
+							}
+
+							else
+							{
+								rand -= SubcompactHandgunChance;
+
+								if (rand < MicrocompactHandgunChance)
+								{
+									return WeaponType.MicrocompactHandgun;
+								}
+
+								else
+								{
+									rand -= MicrocompactHandgunChance;
+
+									if (rand < LeverActionRifleChance)
+									{
+										return WeaponType.LeverActionRifle;
+									}
+
+									else
+									{
+										rand -= LeverActionRifleChance;
+
+										if (rand < BoltActionRifleChance)
+										{
+											return WeaponType.BoltActionRifle;
+										}
+
+										else
+										{
+											rand -= BoltActionRifleChance;
+
+											if (rand < SemiautomaticRifleChance)
+											{
+												return WeaponType.SemiautomaticRifle;
+											}
+
+											else
+											{
+												rand -= SemiautomaticRifleChance;
+
+												if (rand < BreakActionShotgunChance)
+												{
+													return WeaponType.BreakActionShotgun;
+												}
+
+												else
+												{
+													rand -= BreakActionShotgunChance;
+
+													if (rand < LeverActionShotgunChance)
+													{
+														return WeaponType.LeverActionShotgun;
+													}
+
+													else
+													{
+														rand -= LeverActionShotgunChance;
+
+														if (rand < PumpActionShotgunChance)
+														{
+															return WeaponType.PumpActionShotgun;
+														}
+
+														else
+														{
+															rand -= PumpActionShotgunChance;
+
+															if (rand < SemiautomaticShotgunChance)
+															{
+																return WeaponType.SemiautomaticShotgun;
+															}
+
+															else
+															{
+																rand -= SemiautomaticShotgunChance;
+
+																if (rand < SubmachineGunChance)
+																{
+																	return WeaponType.SubmachineGun;
+																}
+
+																else
+																{
+																	rand -= SubmachineGunChance;
+
+																	if (rand < HeavyMachinGunChance)
+																	{
+																		return WeaponType.HeavyMachineGun;
+																	}
+
+																	else
+																	{
+																		rand -= HeavyMachinGunChance;
+
+																		if (rand < LightMachineGunChance)
+																		{
+																			return WeaponType.LightMachineGun;
+																		}
+
+																		else
+																		{
+																			rand -= LightMachineGunChance;
+
+																			if (rand < AssaultRifleChance)
+																			{
+																				return WeaponType.AssaultRifle;
+																			}
+
+																			else
+																			{
+																				throw new WeaponTypeNotFoundException();
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RandomWeaponGenerator
+namespace WeaponGenerator
 {
 	public class WeaponTypeNotFoundException : Exception
 	{
