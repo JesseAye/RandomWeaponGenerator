@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="WeaponGenerator">
+      <HintPath>..\WeaponGenerator\bin\Debug\net5.0\WeaponGenerator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PackageId>WeaponGenerator</PackageId>
+    <Authors>JesseAye</Authors>
+    <Product />
+    <AssemblyName>WeaponGenerator</AssemblyName>
+    <RootNamespace>WeaponGenerator</RootNamespace>
+  </PropertyGroup>
+
+</Project>
