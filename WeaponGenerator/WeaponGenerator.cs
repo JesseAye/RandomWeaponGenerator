@@ -420,6 +420,49 @@ namespace WeaponGenerator
 		public ushort ClipSize { get { return _clipSize; } set { _clipSize = value; } }
 	}
 
+	//For how to instantiate object with certain class type based on Enum value:
+	//https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465
+	public class WeaponGeneratorNew
+	{
+
+	}
+
+	public abstract class WeaponBase
+	{
+		public abstract string WeaponName { get; }
+
+		public abstract ushort RandChance { get; }
+
+		protected ushort _clipSize;
+
+		public ushort ClipSize { get { return _clipSize; } set { _clipSize = value; } }
+
+		public abstract ushort LowerClipLimit { get; }
+
+		public abstract ushort UpperClipLimit { get; }
+	}
+
+	public abstract class Revolver : WeaponBase
+	{
+		public override ushort LowerClipLimit { get { return 5; } }
+
+		public override ushort UpperClipLimit { get { return 12; } }
+	}
+
+	public class SingleActionRevolver : Revolver
+	{
+		public override string WeaponName { get { return "Single Action Revolver"; } }
+
+		public override ushort RandChance { get { return 1; } }
+	}
+
+	public class DoubleActionRevolver : Revolver
+	{
+		public override string WeaponName { get { return "Double Action Revolver"; } }
+
+		public override ushort RandChance { get { return 1; } }
+	}
+
 	//Ref: https://legionary.com/all-types-of-guns-with-pictures-and-names/
 	public enum WeaponType
 	{
