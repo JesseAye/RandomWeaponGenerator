@@ -18,6 +18,9 @@ namespace FormForWeaponGenerator
 
 			txtbxWeapon.Text = weapon.WeaponTypeName;
 			txtbxClipSize.Text = weapon.ClipSize.ToString();
+
+			WeaponGeneratorNew weaponGeneratorNew = new();
+			WeaponBase weapon1 = weaponGeneratorNew.GenerateRandomWeapon();
 		}
 	}
 }
