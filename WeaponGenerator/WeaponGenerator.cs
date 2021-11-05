@@ -90,13 +90,12 @@ namespace WeaponGenerator
 		{
 			Weapon weapon;
 			Random rand_Weapon = new();
-			Random rand_ClipSize = new();
 			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 
 			List<WeaponType> ChancePool = CreateChancePool();
 
 			weapon = GetWeapon(ChancePool[rand]);
-			weapon.ClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon.LowerClipLimit, weapon.UpperClipLimit));
+			SetupWeapon(ref weapon);
 
 			return weapon;
 		}
@@ -110,7 +109,6 @@ namespace WeaponGenerator
 		{
 			Weapon[] weapon = new Weapon[Amount];
 			Random rand_Weapon = new();
-			Random rand_ClipSize = new();
 			int rand;
 			List<WeaponType> ChancePool = CreateChancePool();
 
@@ -118,10 +116,20 @@ namespace WeaponGenerator
 			{
 				rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 				weapon[i] = GetWeapon(ChancePool[rand]);
-				weapon[i].ClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon[i].LowerClipLimit, weapon[i].UpperClipLimit));
+				SetupWeapon(ref weapon[i]);
 			}
 
 			return weapon;
+		}
+
+		/// <summary>
+		/// Assists in setting up the weapon
+		/// </summary>
+		/// <param name="weapon">The reference of the weapon to setup</param>
+		private static void SetupWeapon(ref Weapon weapon)
+		{
+			Random rand_ClipSize = new();
+			weapon.SetClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon.LowerClipLimit, weapon.UpperClipLimit));
 		}
 
 		/// <summary>
@@ -239,23 +247,31 @@ namespace WeaponGenerator
 
 	public abstract class Weapon
 	{
+		/// <summary>
+		/// This weapon's normal name
+		/// </summary>
 		public abstract string WeaponName { get; }
 
 		protected ushort _clipSize;
 
-		public ushort ClipSize { get { return _clipSize; } set { _clipSize = value; } }
+		/// <summary>
+		/// The amount of rounds in each clip
+		/// </summary>
+		public ushort ClipSize { get { return _clipSize; } }
 
-		public abstract ushort LowerClipLimit { get; }
+		internal ushort SetClipSize { set { _clipSize = value; } }
 
-		public abstract ushort UpperClipLimit { get; }
+		internal abstract ushort LowerClipLimit { get; }
+
+		internal abstract ushort UpperClipLimit { get; }
 	}
 
 	#region Revolver
 	public abstract class Revolver : Weapon
 	{
-		public override ushort LowerClipLimit { get { return 5; } }
+		internal override ushort LowerClipLimit { get { return 5; } }
 
-		public override ushort UpperClipLimit { get { return 12; } }
+		internal override ushort UpperClipLimit { get { return 12; } }
 	}
 
 	public class SingleActionRevolver : Revolver
@@ -272,9 +288,9 @@ namespace WeaponGenerator
 	#region Handgun
 	public abstract class Handgun : Weapon
 	{
-		public override ushort LowerClipLimit { get { return 10; } }
+		internal override ushort LowerClipLimit { get { return 10; } }
 
-		public override ushort UpperClipLimit { get { return 20; } }
+		internal override ushort UpperClipLimit { get { return 20; } }
 	}
 
 	public class FullSizedHandgun : Handgun
@@ -305,27 +321,27 @@ namespace WeaponGenerator
 	{
 		public override string WeaponName { get { return "Lever Action Rifle"; } }
 
-		public override ushort LowerClipLimit { get { return 4; } }
+		internal override ushort LowerClipLimit { get { return 4; } }
 
-		public override ushort UpperClipLimit { get { return 17; } }
+		internal override ushort UpperClipLimit { get { return 17; } }
 	}
 
 	public class BoltActionRifle : Rifle
 	{
 		public override string WeaponName { get { return "Bolt Action Rifle"; } }
 
-		public override ushort LowerClipLimit { get { return 2; } }
+		internal override ushort LowerClipLimit { get { return 2; } }
 
-		public override ushort UpperClipLimit { get { return 10; } }
+		internal override ushort UpperClipLimit { get { return 10; } }
 	}
 
 	public class SemiautomaticRifle : Rifle
 	{
 		public override string WeaponName { get { return "Semiautomatic Rifle"; } }
 
-		public override ushort LowerClipLimit { get { return 5; } }
+		internal override ushort LowerClipLimit { get { return 5; } }
 
-		public override ushort UpperClipLimit { get { return 30; } }
+		internal override ushort UpperClipLimit { get { return 30; } }
 	}
 	#endregion
 
@@ -336,36 +352,36 @@ namespace WeaponGenerator
 	{
 		public override string WeaponName { get { return "Break Action Shotgun"; } }
 
-		public override ushort LowerClipLimit { get { return 1; } }
+		internal override ushort LowerClipLimit { get { return 1; } }
 
-		public override ushort UpperClipLimit { get { return 2; } }
+		internal override ushort UpperClipLimit { get { return 2; } }
 	}
 
 	public class LeverActionShotgun : Shotgun
 	{
 		public override string WeaponName { get { return "Lever Action Shotgun"; } }
 
-		public override ushort LowerClipLimit { get { return 5; } }
+		internal override ushort LowerClipLimit { get { return 5; } }
 
-		public override ushort UpperClipLimit { get { return 6; } }
+		internal override ushort UpperClipLimit { get { return 6; } }
 	}
 
 	public class PumpActionShotgun : Shotgun
 	{
 		public override string WeaponName { get { return "Pump Action Shotgun"; } }
 
-		public override ushort LowerClipLimit { get { return 4; } }
+		internal override ushort LowerClipLimit { get { return 4; } }
 
-		public override ushort UpperClipLimit { get { return 5; } }
+		internal override ushort UpperClipLimit { get { return 5; } }
 	}
 
 	public class SemiautomaticShotgun : Shotgun
 	{
 		public override string WeaponName { get { return "Semiautomatic Shotgun"; } }
 
-		public override ushort LowerClipLimit { get { return 3; } }
+		internal override ushort LowerClipLimit { get { return 3; } }
 
-		public override ushort UpperClipLimit { get { return 9; } }
+		internal override ushort UpperClipLimit { get { return 9; } }
 	}
 	#endregion
 
@@ -376,36 +392,36 @@ namespace WeaponGenerator
 	{
 		public override string WeaponName { get { return "Submachine Gun"; } }
 
-		public override ushort LowerClipLimit { get { return 10; } }
+		internal override ushort LowerClipLimit { get { return 10; } }
 
-		public override ushort UpperClipLimit { get { return 50; } }
+		internal override ushort UpperClipLimit { get { return 50; } }
 	}
 
 	public class HeavyMachineGun : Automatics
 	{
 		public override string WeaponName { get { return "Heavy Machine Gun"; } }
 
-		public override ushort LowerClipLimit { get { return 50; } }
+		internal override ushort LowerClipLimit { get { return 50; } }
 
-		public override ushort UpperClipLimit { get { return 300; } }
+		internal override ushort UpperClipLimit { get { return 300; } }
 	}
 
 	public class LightMachineGun : Automatics
 	{
 		public override string WeaponName { get { return "Light Machine Gun"; } }
 
-		public override ushort LowerClipLimit { get { return 50; } }
+		internal override ushort LowerClipLimit { get { return 50; } }
 
-		public override ushort UpperClipLimit { get { return 100; } }
+		internal override ushort UpperClipLimit { get { return 100; } }
 	}
 
 	public class AssaultRifle : Automatics
 	{
 		public override string WeaponName { get { return "Assault Rifle"; } }
 
-		public override ushort LowerClipLimit { get { return 15; } }
+		internal override ushort LowerClipLimit { get { return 15; } }
 
-		public override ushort UpperClipLimit { get { return 30; } }
+		internal override ushort UpperClipLimit { get { return 30; } }
 	}
 	#endregion
 
