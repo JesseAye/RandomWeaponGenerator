@@ -264,6 +264,17 @@ namespace WeaponGenerator
 		internal abstract ushort LowerClipLimit { get; }
 
 		internal abstract ushort UpperClipLimit { get; }
+
+		// Features to add
+		// TODO: Minimum Bullet Spread, Maximum Bullet Spread
+		// TODO: Absolute Maximum Effective Range, Maximum Effective Range (https://guns.fandom.com/wiki/Effective_range)
+		// TODO: Weight
+		// TODO: Reload speed + variance
+		// TODO: Dual-wieldable
+		// TODO: One- or Two-handed weapon
+		// TODO: Draw Speed (ADS), how quickly the weapon can go from hip fire to ADS
+		// TODO: Fire rate
+		// TODO: Secondary Action (Pistol whip)
 	}
 
 	#region Revolver
