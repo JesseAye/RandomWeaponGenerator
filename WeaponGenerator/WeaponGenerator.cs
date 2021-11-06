@@ -247,17 +247,18 @@ namespace WeaponGenerator
 
 	public abstract class Weapon
 	{
-		/// <summary>
-		/// This weapon's normal name
-		/// </summary>
-		public abstract string WeaponName { get; }
-
 		protected ushort _clipSize;
-
-		/// <summary>
-		/// The amount of rounds in each clip
-		/// </summary>
-		public ushort ClipSize { get { return _clipSize; } }
+		protected float _minimumSpread;
+		protected float _maximumSpread;
+		protected ushort _effectiveRange;
+		protected ushort _absMaxRange;
+		protected ushort _weight;
+		protected TimeSpan _reloadTime;
+		protected ushort _reloadTimeVariance;
+		protected bool _canDualWield;
+		protected bool _isTwoHanded;
+		protected TimeSpan _drawSpeed;
+		protected TimeSpan _fireRate;
 
 		internal ushort SetClipSize { set { _clipSize = value; } }
 
@@ -265,16 +266,54 @@ namespace WeaponGenerator
 
 		internal abstract ushort UpperClipLimit { get; }
 
-		// Features to add
-		// TODO: Minimum Bullet Spread, Maximum Bullet Spread
-		// TODO: Absolute Maximum Effective Range, Maximum Effective Range (https://guns.fandom.com/wiki/Effective_range)
-		// TODO: Weight
-		// TODO: Reload speed + variance
-		// TODO: Dual-wieldable
-		// TODO: One- or Two-handed weapon
-		// TODO: Draw Speed (ADS), how quickly the weapon can go from hip fire to ADS
-		// TODO: Fire rate
-		// TODO: Secondary Action (Pistol whip)
+		/// <summary>
+		/// This weapon's normal name
+		/// </summary>
+		public abstract string WeaponName { get; }
+
+		/// <summary>
+		/// The amount of rounds in each clip
+		/// </summary>
+		public ushort ClipSize { get { return _clipSize; } }
+
+		/// <summary>
+		/// The minimum spread pattern the fired projectile will follow
+		/// </summary>
+		public float MinimumSpread { get { return _minimumSpread; } }
+
+		/// <summary>
+		/// The maximum spread pattern the fired projectile will folow
+		/// </summary>
+		public float MaximumSpread { get { return _maximumSpread; } }
+
+		/// <summary>
+		/// The distance the firearm will shoot a projectile and have full effectiveness
+		/// </summary>
+		public ushort EffectiveRange { get { return _effectiveRange; } }
+
+		/// <summary>
+		/// The weight of the firearm
+		/// </summary>
+		public ushort Weight { get { return _weight; } }
+
+		/// <summary>
+		/// The amount of time it takes to reload the firearm
+		/// </summary>
+		public TimeSpan ReloadTime { get { return _reloadTime; } }
+
+		/// <summary>
+		/// Whether this firearm can be dual wielded
+		/// </summary>
+		public bool CanDualWield { get { return _canDualWield; } }
+
+		/// <summary>
+		/// Whether this firearm requires being held by two hands
+		/// </summary>
+		public bool IsTwoHanded { get { return _isTwoHanded; } }
+
+		public TimeSpan DrawSpeed { get { return _drawSpeed; } }
+
+		public TimeSpan FireRate { get { return _fireRate; } }
 	}
 
 	#region Revolver
