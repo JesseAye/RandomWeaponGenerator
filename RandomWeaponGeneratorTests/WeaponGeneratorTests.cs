@@ -19,7 +19,7 @@ namespace WeaponGenerator.Tests
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
-				Assert.IsNotNull(weaponGen.GenerateRandomWeapon().CurrentWeapon);
+				Assert.IsNotNull(weaponGen.GenerateRandomWeapon().WeaponName);
 			}
 		}
 
@@ -36,13 +36,13 @@ namespace WeaponGenerator.Tests
 			//Assert each weapon is not null
 			for (int i = 0; i < weapons.Length; i++)
 			{
-				Assert.IsNotNull(weapons[i].CurrentWeapon);
+				Assert.IsNotNull(weapons[i].WeaponName);
 			}
 
 			//Assert each weapon has been generated at least once
 			foreach (WeaponType weaponType in Enum.GetValues(typeof(WeaponType)))
 			{
-				Assert.IsTrue(weapons.Where(i => i.CurrentWeapon == weaponType)?.Count() > 0);
+				Assert.IsTrue(weapons.Where(i => i.GetType().ToString() == "WeaponGenerator." + weaponType.ToString())?.Count() > 0);
 			}
 		}
 

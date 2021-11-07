@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WeaponGenerator
 {
+	//For how to instantiate object with certain class type based on Enum value:
+	//https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465
 	public class WeaponGenerator
 	{
 		private ushort _singleActionRevolverChance = 1,
@@ -23,7 +26,7 @@ namespace WeaponGenerator
 			_assaultRifleChance = 1;
 
 		public ushort SingleActionRevolverChance { get { return _singleActionRevolverChance; } set { _singleActionRevolverChance = value; } }
-		public ushort DoubleActionRevolverChance { get { return _doubleActionRevolverChance;} set { _doubleActionRevolverChance = value; } }
+		public ushort DoubleActionRevolverChance { get { return _doubleActionRevolverChance; } set { _doubleActionRevolverChance = value; } }
 		public ushort FullSizedHandgunChance { get { return _fullSizedHandgunChance; } set { _fullSizedHandgunChance = value; } }
 		public ushort CompactHandgunChance { get { return _compactHandgunChance; } set { _compactHandgunChance = value; } }
 		public ushort SubcompactHandgunChance { get { return _subcompactHandgunChance; } set { _subcompactHandgunChance = value; } }
@@ -41,9 +44,23 @@ namespace WeaponGenerator
 		public ushort AssaultRifleChance { get { return _assaultRifleChance; } set { _assaultRifleChance = value; } }
 
 		/// <summary>
-		/// Set all weapon types to an equal chance to generate
+		/// Sum of all weapon generation chances
 		/// </summary>
-		/// <param name="value">The ushort to apply to all weapon type chances</param>
+		public uint TotalChance
+		{
+			get
+			{
+				return Convert.ToUInt32(SingleActionRevolverChance + DoubleActionRevolverChance + FullSizedHandgunChance + CompactHandgunChance + SubcompactHandgunChance
+											+ MicrocompactHandgunChance + LeverActionRifleChance + BoltActionRifleChance + SemiautomaticRifleChance + BreakActionShotgunChance
+											+ LeverActionShotgunChance + PumpActionShotgunChance + SemiautomaticShotgunChance + SubmachineGunChance + HeavyMachinGunChance
+											+ LightMachineGunChance + AssaultRifleChance);
+			}
+		}
+		
+		/// <summary>
+		 /// Set all weapon types to an equal chance to generate
+		 /// </summary>
+		 /// <param name="value">The ushort to apply to all weapon type chances</param>
 		public void AllWeaponsEqualChance(ushort value)
 		{
 			_singleActionRevolverChance = value;
@@ -66,359 +83,397 @@ namespace WeaponGenerator
 		}
 
 		/// <summary>
-		/// Sum of all weapon generation chances
+		/// Generate a random object with a base type of Weapon
 		/// </summary>
-		public uint TotalChance { get {
-				return Convert.ToUInt32(SingleActionRevolverChance + DoubleActionRevolverChance + FullSizedHandgunChance + CompactHandgunChance + SubcompactHandgunChance
-											+ MicrocompactHandgunChance + LeverActionRifleChance + BoltActionRifleChance + SemiautomaticRifleChance + BreakActionShotgunChance
-											+ LeverActionShotgunChance + PumpActionShotgunChance + SemiautomaticShotgunChance + SubmachineGunChance + HeavyMachinGunChance
-											+ LightMachineGunChance + AssaultRifleChance);
-			} }
-
-		/// <summary>
-		/// Generate a single instance of a randomly generated Weapon
-		/// </summary>
-		/// <returns>Randomly generated Weapon</returns>
+		/// <returns>Instance of any of the weapons</returns>
 		public Weapon GenerateRandomWeapon()
 		{
-			Random rand_Weapon = new();
-			Random rand_ClipSize = new();
-			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 			Weapon weapon;
-			ushort lowerClipLimit;
-			ushort upperClipLimit;
+			Random rand_Weapon = new();
+			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 
-			weapon = new() { CurrentWeapon = CalculateWeaponTypeFromChance(rand) };
+			List<WeaponType> ChancePool = CreateChancePool();
 
-			/* Ref
-			 * Revolver: https://en.wikipedia.org/wiki/Revolver
-			 * Handgun: https://www.cato.org/legal-policy-bulletin/losing-count-empty-case-high-capacity-magazine-restrictions
-			 * Lever Action Rifle: https://www.quora.com/How-many-bullets-does-a-lever-action-rifle-carry
-			 * Bolt Action Rifle: https://en.wikipedia.org/wiki/Bolt_action
-			 * Semiautomatic Rifle: https://www.quora.com/Do-all-semi-automatic-assault-guns-have-high-capacity-magazine-clips
-			 * Break/Pump/Semiautomatic Shotgun: https://lundestudio.com/how-many-shells-can-a-shotgun-hold/
-			 * Lever Action Shotgun: https://www.thegunsource.com/best-lever-action-shotguns/
-			 * Submachine Gun: https://www.britannica.com/technology/submachine-gun
-			 * Heavy Machine Gun: https://en.wikipedia.org/wiki/Belt_(firearms)
-			 * Light Machine Gun: https://en.wikipedia.org/wiki/Drum_magazine
-			 * Assault Rifles: https://congressionalsportsmen.org/policies/state/full-capacity-magazines
-			 */
-			switch (weapon.CurrentWeapon)
-			{
-				case WeaponType.SingleActionRevolver:
-					lowerClipLimit = 5;
-					upperClipLimit = 12;
-					break;
-				case WeaponType.DoubleActionRevolver:
-					lowerClipLimit = 5;
-					upperClipLimit = 12;
-					break;
-				case WeaponType.FullSizedHandgun:
-					lowerClipLimit = 10;
-					upperClipLimit = 20;
-					break;
-				case WeaponType.CompactHandgun:
-					lowerClipLimit = 10;
-					upperClipLimit = 20;
-					break;
-				case WeaponType.SubcompactHandgun:
-					lowerClipLimit = 10;
-					upperClipLimit = 20;
-					break;
-				case WeaponType.MicrocompactHandgun:
-					lowerClipLimit = 10;
-					upperClipLimit = 20;
-					break;
-				case WeaponType.LeverActionRifle:
-					lowerClipLimit = 4;
-					upperClipLimit = 17;
-					break;
-				case WeaponType.BoltActionRifle:
-					lowerClipLimit = 2;
-					upperClipLimit = 10;
-					break;
-				case WeaponType.SemiautomaticRifle:
-					lowerClipLimit = 5;
-					upperClipLimit = 30;
-					break;
-				case WeaponType.BreakActionShotgun:
-					lowerClipLimit = 1;
-					upperClipLimit = 2;
-					break;
-				case WeaponType.LeverActionShotgun:
-					lowerClipLimit = 5;
-					upperClipLimit = 6;
-					break;
-				case WeaponType.PumpActionShotgun:
-					lowerClipLimit = 4;
-					upperClipLimit = 5;
-					break;
-				case WeaponType.SemiautomaticShotgun:
-					lowerClipLimit = 3;
-					upperClipLimit = 9;
-					break;
-				case WeaponType.SubmachineGun:
-					lowerClipLimit = 10;
-					upperClipLimit = 50;
-					break;
-				case WeaponType.HeavyMachineGun:
-					lowerClipLimit = 50;
-					upperClipLimit = 300;
-					break;
-				case WeaponType.LightMachineGun:
-					lowerClipLimit = 50;
-					upperClipLimit = 100;
-					break;
-				case WeaponType.AssaultRifle:
-					lowerClipLimit = 15;
-					upperClipLimit = 30;
-					break;
-				default:
-					throw new WeaponTypeNotFoundException();
-			}
-
-			weapon.ClipSize = Convert.ToUInt16(rand_ClipSize.Next(lowerClipLimit, upperClipLimit));
+			weapon = GetWeapon(ChancePool[rand]);
+			SetupWeapon(ref weapon);
 
 			return weapon;
 		}
 
 		/// <summary>
-		/// Generate an amount of randomly generated Weapons
+		/// Generate multiple objects with a base type of Weapon
 		/// </summary>
-		/// <param name="Amount">Number of Weapons to generate</param>
-		/// <returns>Array of Weapons</returns>
+		/// <param name="Amount">The amount of weapons to generate</param>
+		/// <returns>Array of instances of any of the weapon</returns>
 		public Weapon[] GenerateRandomWeapon(int Amount)
 		{
 			Weapon[] weapon = new Weapon[Amount];
 			Random rand_Weapon = new();
 			int rand;
+			List<WeaponType> ChancePool = CreateChancePool();
 
 			for (int i = 0; i < Amount; i++)
 			{
 				rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
-				weapon[i] = new() { CurrentWeapon = CalculateWeaponTypeFromChance(rand) };
+				weapon[i] = GetWeapon(ChancePool[rand]);
+				SetupWeapon(ref weapon[i]);
 			}
 
 			return weapon;
 		}
 
 		/// <summary>
-		/// Calculates which weapon is to be generated. There has to be a way better way of doing this.
+		/// Assists in setting up the weapon
 		/// </summary>
-		/// <param name="rand">The randomly generated number</param>
-		/// <returns>The WeaponType to be generated</returns>
-		private WeaponType CalculateWeaponTypeFromChance(int rand)
+		/// <param name="weapon">The reference of the weapon to setup</param>
+		private static void SetupWeapon(ref Weapon weapon)
 		{
-			if (rand < SingleActionRevolverChance)
+			Random rand_ClipSize = new();
+			weapon.SetClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon.LowerClipLimit, weapon.UpperClipLimit));
+		}
+
+		/// <summary>
+		/// Creates a List of type WeaponType representing a chance pool for a random number generator to pick from
+		/// </summary>
+		/// <returns>The chance pool itself, to be used by a Random number generator to pick from</returns>
+		private List<WeaponType> CreateChancePool()
+		{
+			List<WeaponType> ChancePool = new();
+
+			for (int i = 0; i < SingleActionRevolverChance; i++)
 			{
-				return WeaponType.SingleActionRevolver;
+				ChancePool.Add(WeaponType.SingleActionRevolver);
 			}
 
-			else
+			for (int i = 0; i < DoubleActionRevolverChance; i++)
 			{
-				rand -= SingleActionRevolverChance;
-
-				if (rand < DoubleActionRevolverChance)
-				{
-					return WeaponType.DoubleActionRevolver;
-				}
-
-				else
-				{
-					rand -= DoubleActionRevolverChance;
-
-					if (rand < FullSizedHandgunChance)
-					{
-						return WeaponType.FullSizedHandgun;
-					}
-
-					else
-					{
-						rand -= FullSizedHandgunChance;
-
-						if (rand < CompactHandgunChance)
-						{
-							return  WeaponType.CompactHandgun;
-						}
-
-						else
-						{
-							rand -= CompactHandgunChance;
-
-							if (rand < SubcompactHandgunChance)
-							{
-								return WeaponType.SubcompactHandgun;
-							}
-
-							else
-							{
-								rand -= SubcompactHandgunChance;
-
-								if (rand < MicrocompactHandgunChance)
-								{
-									return WeaponType.MicrocompactHandgun;
-								}
-
-								else
-								{
-									rand -= MicrocompactHandgunChance;
-
-									if (rand < LeverActionRifleChance)
-									{
-										return WeaponType.LeverActionRifle;
-									}
-
-									else
-									{
-										rand -= LeverActionRifleChance;
-
-										if (rand < BoltActionRifleChance)
-										{
-											return WeaponType.BoltActionRifle;
-										}
-
-										else
-										{
-											rand -= BoltActionRifleChance;
-
-											if (rand < SemiautomaticRifleChance)
-											{
-												return WeaponType.SemiautomaticRifle;
-											}
-
-											else
-											{
-												rand -= SemiautomaticRifleChance;
-
-												if (rand < BreakActionShotgunChance)
-												{
-													return WeaponType.BreakActionShotgun;
-												}
-
-												else
-												{
-													rand -= BreakActionShotgunChance;
-
-													if (rand < LeverActionShotgunChance)
-													{
-														return WeaponType.LeverActionShotgun;
-													}
-
-													else
-													{
-														rand -= LeverActionShotgunChance;
-
-														if (rand < PumpActionShotgunChance)
-														{
-															return WeaponType.PumpActionShotgun;
-														}
-
-														else
-														{
-															rand -= PumpActionShotgunChance;
-
-															if (rand < SemiautomaticShotgunChance)
-															{
-																return WeaponType.SemiautomaticShotgun;
-															}
-
-															else
-															{
-																rand -= SemiautomaticShotgunChance;
-
-																if (rand < SubmachineGunChance)
-																{
-																	return WeaponType.SubmachineGun;
-																}
-
-																else
-																{
-																	rand -= SubmachineGunChance;
-
-																	if (rand < HeavyMachinGunChance)
-																	{
-																		return WeaponType.HeavyMachineGun;
-																	}
-
-																	else
-																	{
-																		rand -= HeavyMachinGunChance;
-
-																		if (rand < LightMachineGunChance)
-																		{
-																			return WeaponType.LightMachineGun;
-																		}
-
-																		else
-																		{
-																			rand -= LightMachineGunChance;
-
-																			if (rand < AssaultRifleChance)
-																			{
-																				return WeaponType.AssaultRifle;
-																			}
-
-																			else
-																			{
-																				throw new WeaponTypeNotFoundException();
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				ChancePool.Add(WeaponType.DoubleActionRevolver);
 			}
+
+			for (int i = 0; i < FullSizedHandgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.FullSizedHandgun);
+			}
+
+			for (int i = 0; i < CompactHandgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.CompactHandgun);
+			}
+
+			for (int i = 0; i < SubcompactHandgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.SubcompactHandgun);
+			}
+
+			for (int i = 0; i < MicrocompactHandgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.MicrocompactHandgun);
+			}
+
+			for (int i = 0; i < LeverActionRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.LeverActionRifle);
+			}
+
+			for (int i = 0; i < BoltActionRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.BoltActionRifle);
+			}
+
+			for (int i = 0; i < SemiautomaticRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.SemiautomaticRifle);
+			}
+
+			for (int i = 0; i < BreakActionShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.BreakActionShotgun);
+			}
+
+			for (int i = 0; i < LeverActionShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.LeverActionShotgun);
+			}
+
+			for (int i = 0; i < PumpActionShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.PumpActionShotgun);
+			}
+
+			for (int i = 0; i < SemiautomaticShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.SemiautomaticShotgun);
+			}
+
+			for (int i = 0; i < SubmachineGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.SubmachineGun);
+			}
+
+			for (int i = 0; i < HeavyMachinGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.HeavyMachineGun);
+			}
+
+			for (int i = 0; i < LightMachineGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.LightMachineGun);
+			}
+
+			for (int i = 0; i < AssaultRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.AssaultRifle);
+			}
+
+			return ChancePool;
+		}
+
+		/// <summary>
+		/// Convert the WeaponType into the actual type it represents
+		/// </summary>
+		/// <param name="weaponType">WeaponType to create</param>
+		/// <seealso href="https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465">Thanks MatteoSp!</seealso>
+		/// <returns>An instance of the WeaponType</returns>
+		private static Weapon GetWeapon(WeaponType weaponType)
+		{
+			string ns = typeof(WeaponType).Namespace;
+			string typeName = ns + "." + weaponType.ToString();
+			Type type = Type.GetType(typeName);
+			Weapon weapon = (Weapon)Activator.CreateInstance(type);
+
+			return weapon;
 		}
 	}
 
-	/// <summary>
-	/// A weapon with several specifications about the weapon
-	/// </summary>
-	public class Weapon
+	public abstract class Weapon
 	{
-		private WeaponType _currentWeapon;
-		public WeaponType CurrentWeapon { get { return _currentWeapon; } set { _currentWeapon = value; } }
+		protected ushort _clipSize;
+		protected float _minimumSpread;
+		protected float _maximumSpread;
+		protected ushort _effectiveRange;
+		protected ushort _absMaxRange;
+		protected ushort _weight;
+		protected TimeSpan _reloadTime;
+		protected ushort _reloadTimeVariance;
+		protected bool _canDualWield;
+		protected bool _isTwoHanded;
+		protected TimeSpan _drawSpeed;
+		protected TimeSpan _fireRate;
+
+		internal ushort SetClipSize { set { _clipSize = value; } }
+
+		internal abstract ushort LowerClipLimit { get; }
+
+		internal abstract ushort UpperClipLimit { get; }
 
 		/// <summary>
-		/// Get the Weapon Type as a string
+		/// This weapon's normal name
 		/// </summary>
-		public string WeaponTypeName { get {
-				return _currentWeapon switch // Thanks IntelliSense for making this cleaner!
-				{
-					WeaponType.SingleActionRevolver => "Single Action Revolver",
-					WeaponType.DoubleActionRevolver => "Double Action Revolver",
-					WeaponType.FullSizedHandgun => "Full Sized Handgun",
-					WeaponType.CompactHandgun => "Compact Handgun",
-					WeaponType.SubcompactHandgun => "Sub-Compact Handgun",
-					WeaponType.MicrocompactHandgun => "Micro-Compact Handgun",
-					WeaponType.LeverActionRifle => "Lever Action Rifle",
-					WeaponType.BoltActionRifle => "Bolt Action Rifle",
-					WeaponType.SemiautomaticRifle => "Semi-Automatic Rifle",
-					WeaponType.BreakActionShotgun => "Break Action Shotgun",
-					WeaponType.LeverActionShotgun => "Lever Action Shotgun",
-					WeaponType.PumpActionShotgun => "Pump Action Shotgun",
-					WeaponType.SemiautomaticShotgun => "Semi-Automatic Shotgun",
-					WeaponType.SubmachineGun => "Submachine Gun",
-					WeaponType.HeavyMachineGun => "Heavy Machine Gun",
-					WeaponType.LightMachineGun => "Light Machine Gun",
-					WeaponType.AssaultRifle => "Assault Rifle",
-					_ => throw new WeaponTypeNotFoundException(),
-				};
-			} }
+		public abstract string WeaponName { get; }
 
-		private ushort _clipSize;
-		public ushort ClipSize { get { return _clipSize; } set { _clipSize = value; } }
+		/// <summary>
+		/// The amount of rounds in each clip
+		/// </summary>
+		public ushort ClipSize { get { return _clipSize; } }
+
+		/// <summary>
+		/// The minimum spread pattern the fired projectile will follow
+		/// </summary>
+		public float MinimumSpread { get { return _minimumSpread; } }
+
+		/// <summary>
+		/// The maximum spread pattern the fired projectile will folow
+		/// </summary>
+		public float MaximumSpread { get { return _maximumSpread; } }
+
+		/// <summary>
+		/// The distance the firearm will shoot a projectile and have full effectiveness
+		/// </summary>
+		public ushort EffectiveRange { get { return _effectiveRange; } }
+
+		/// <summary>
+		/// The weight of the firearm
+		/// </summary>
+		public ushort Weight { get { return _weight; } }
+
+		/// <summary>
+		/// The amount of time it takes to reload the firearm
+		/// </summary>
+		public TimeSpan ReloadTime { get { return _reloadTime; } }
+
+		/// <summary>
+		/// Whether this firearm can be dual wielded
+		/// </summary>
+		public bool CanDualWield { get { return _canDualWield; } }
+
+		/// <summary>
+		/// Whether this firearm requires being held by two hands
+		/// </summary>
+		public bool IsTwoHanded { get { return _isTwoHanded; } }
+
+		public TimeSpan DrawSpeed { get { return _drawSpeed; } }
+
+		public TimeSpan FireRate { get { return _fireRate; } }
 	}
+
+	#region Revolver
+	public abstract class Revolver : Weapon
+	{
+		internal override ushort LowerClipLimit { get { return 5; } }
+
+		internal override ushort UpperClipLimit { get { return 12; } }
+	}
+
+	public class SingleActionRevolver : Revolver
+	{
+		public override string WeaponName { get { return "Single Action Revolver"; } }
+	}
+
+	public class DoubleActionRevolver : Revolver
+	{
+		public override string WeaponName { get { return "Double Action Revolver"; } }
+	}
+	#endregion
+
+	#region Handgun
+	public abstract class Handgun : Weapon
+	{
+		internal override ushort LowerClipLimit { get { return 10; } }
+
+		internal override ushort UpperClipLimit { get { return 20; } }
+	}
+
+	public class FullSizedHandgun : Handgun
+	{
+		public override string WeaponName { get { return "Full Sized Handgun"; } }
+	}
+
+	public class CompactHandgun : Handgun
+	{
+		public override string WeaponName { get { return "Compact Handgun"; } }
+	}
+
+	public class SubcompactHandgun : Handgun
+	{
+		public override string WeaponName { get { return "Subcompact Handgun"; } }
+	}
+
+	public class MicrocompactHandgun : Handgun
+	{
+		public override string WeaponName { get { return "Microcompact Handgun"; } }
+	}
+	#endregion
+
+	#region Rifle
+	public abstract class Rifle : Weapon { }
+
+	public class LeverActionRifle : Rifle
+	{
+		public override string WeaponName { get { return "Lever Action Rifle"; } }
+
+		internal override ushort LowerClipLimit { get { return 4; } }
+
+		internal override ushort UpperClipLimit { get { return 17; } }
+	}
+
+	public class BoltActionRifle : Rifle
+	{
+		public override string WeaponName { get { return "Bolt Action Rifle"; } }
+
+		internal override ushort LowerClipLimit { get { return 2; } }
+
+		internal override ushort UpperClipLimit { get { return 10; } }
+	}
+
+	public class SemiautomaticRifle : Rifle
+	{
+		public override string WeaponName { get { return "Semiautomatic Rifle"; } }
+
+		internal override ushort LowerClipLimit { get { return 5; } }
+
+		internal override ushort UpperClipLimit { get { return 30; } }
+	}
+	#endregion
+
+	#region Shotgun
+	public abstract class Shotgun : Weapon { }
+
+	public class BreakActionShotgun : Shotgun
+	{
+		public override string WeaponName { get { return "Break Action Shotgun"; } }
+
+		internal override ushort LowerClipLimit { get { return 1; } }
+
+		internal override ushort UpperClipLimit { get { return 2; } }
+	}
+
+	public class LeverActionShotgun : Shotgun
+	{
+		public override string WeaponName { get { return "Lever Action Shotgun"; } }
+
+		internal override ushort LowerClipLimit { get { return 5; } }
+
+		internal override ushort UpperClipLimit { get { return 6; } }
+	}
+
+	public class PumpActionShotgun : Shotgun
+	{
+		public override string WeaponName { get { return "Pump Action Shotgun"; } }
+
+		internal override ushort LowerClipLimit { get { return 4; } }
+
+		internal override ushort UpperClipLimit { get { return 5; } }
+	}
+
+	public class SemiautomaticShotgun : Shotgun
+	{
+		public override string WeaponName { get { return "Semiautomatic Shotgun"; } }
+
+		internal override ushort LowerClipLimit { get { return 3; } }
+
+		internal override ushort UpperClipLimit { get { return 9; } }
+	}
+	#endregion
+
+	#region Automatics
+	public abstract class Automatics : Weapon { }
+
+	public class SubmachineGun : Automatics
+	{
+		public override string WeaponName { get { return "Submachine Gun"; } }
+
+		internal override ushort LowerClipLimit { get { return 10; } }
+
+		internal override ushort UpperClipLimit { get { return 50; } }
+	}
+
+	public class HeavyMachineGun : Automatics
+	{
+		public override string WeaponName { get { return "Heavy Machine Gun"; } }
+
+		internal override ushort LowerClipLimit { get { return 50; } }
+
+		internal override ushort UpperClipLimit { get { return 300; } }
+	}
+
+	public class LightMachineGun : Automatics
+	{
+		public override string WeaponName { get { return "Light Machine Gun"; } }
+
+		internal override ushort LowerClipLimit { get { return 50; } }
+
+		internal override ushort UpperClipLimit { get { return 100; } }
+	}
+
+	public class AssaultRifle : Automatics
+	{
+		public override string WeaponName { get { return "Assault Rifle"; } }
+
+		internal override ushort LowerClipLimit { get { return 15; } }
+
+		internal override ushort UpperClipLimit { get { return 30; } }
+	}
+	#endregion
 
 	//Ref: https://legionary.com/all-types-of-guns-with-pictures-and-names/
 	public enum WeaponType
