@@ -317,7 +317,7 @@ namespace WeaponGenerator
 		/// </summary>
 		protected float _maximumSpread;
 		/// <summary>
-		/// The maximum range a fired round will deliver full effect
+		/// The maximum range a fired round will deliver full effect, assuming meters
 		/// </summary>
 		protected ushort _effectiveRange;
 		/// <summary>
@@ -325,7 +325,7 @@ namespace WeaponGenerator
 		/// </summary>
 		protected ushort _absMaxRange;
 		/// <summary>
-		/// The weight of the weapon
+		/// The weight of the weapon, assuming grams
 		/// </summary>
 		protected ushort _weight;
 		/// <summary>
@@ -352,11 +352,23 @@ namespace WeaponGenerator
 		/// The minimum TimeSpan between two rounds being fired
 		/// </summary>
 		protected TimeSpan _fireRate;
+		/// <summary>
+		/// The type of ammunition this weapon uses
+		/// </summary>
+		protected Ammunition _ammunition;
+		/// <summary>
+		/// Represents the valid ammunition types this weapon can take, along with the chance the weapon will generate with that type of ammunition
+		/// </summary>
+		protected Dictionary<Ammunition, ushort> _validAmmunition;
 
 		/// <summary>
 		/// Set the size of the clip
 		/// </summary>
 		public ushort SetClipSize { set { _clipSize = value; } }
+		/// <summary>
+		/// The type of ammunition this weapon uses
+		/// </summary>
+		public Ammunition Ammunition { get { return _ammunition; } }
 
 		//TODO: Potentially needs to be changed from internal to protected
 		/// <summary>
@@ -390,12 +402,12 @@ namespace WeaponGenerator
 		public float MaximumSpread { get { return _maximumSpread; } }
 
 		/// <summary>
-		/// The distance the firearm will shoot a projectile and have full effectiveness
+		/// The distance the firearm will shoot a projectile and have full effectiveness, assuming meters
 		/// </summary>
 		public ushort EffectiveRange { get { return _effectiveRange; } }
 
 		/// <summary>
-		/// The weight of the firearm
+		/// The weight of the firearm, assuming grams
 		/// </summary>
 		public ushort Weight { get { return _weight; } }
 
@@ -434,6 +446,16 @@ namespace WeaponGenerator
 		internal override ushort LowerClipLimit { get { return 5; } }
 
 		internal override ushort UpperClipLimit { get { return 12; } }
+
+		/// <summary>
+		/// Initializer for both Single and Double Action Revolvers
+		/// </summary>
+		public Revolver()
+		{
+			_weight = 979; // S&W Model 29
+			_validAmmunition = new Dictionary<Ammunition, ushort>();
+			_validAmmunition.Add(Ammunition)
+		}
 	}
 
 	/// <summary>
@@ -776,4 +798,76 @@ namespace WeaponGenerator
 		/// </summary>
 		AssaultRifle
 	}
+
+	#region Ammunition
+	/// <summary>
+	/// An inheritable base class for all ammunition types
+	/// </summary>
+	public abstract class Ammunition
+	{
+		/// <summary>
+		/// The type of round loaded and fired
+		/// </summary>
+		protected Cartridge _cartridge;
+		/// <summary>
+		/// The maximum cartridges held in this storage unit
+		/// </summary>
+		protected byte _cartridgesPerStorageUnit;
+		/// <summary>
+		/// For random generation, the minimum cartridges held in this storage unit
+		/// </summary>
+		protected byte _minCartridgesPerStorageUnit;
+		/// <summary>
+		/// For random generation, the maximum cartridges held in this storage unit
+		/// </summary>
+		protected byte _maxCartridgesPerStorageUnit;
+
+		/// <summary>
+		/// The amount of cartridges held in each storage unit (magazine, clip, wheel, etc.)
+		/// </summary>
+		public byte CartridgesPerStorageUnit;
+
+		/// <summary>
+		/// The type of ammunition that is loaded and fired from this weapon
+		/// </summary>
+		public Cartridge Cartridge { get { return _cartridge; } }
+	}
+
+	public class TwentyTwoLR : Ammunition
+	{
+
+	}
+
+	/// <summary>
+	/// The type of ammunition loaded and fired from a Weapon
+	/// </summary>
+	public enum Cartridge
+	{
+		/// <summary>
+		/// .22 Long Rifle
+		/// </summary>
+		TwentyTwoLR,
+		/// <summary>
+		/// .38 Special
+		/// </summary>
+		ThirtyEightSpecial,
+		/// <summary>
+		/// .357 Magnum
+		/// </summary>
+		ThreeFiftySevenMagnum,
+		/// <summary>
+		/// .44 Special
+		/// </summary>
+		FortyFourSpecial,
+		/// <summary>
+		/// .44 Magnum
+		/// </summary>
+		FortyFourMagnum
+	}
+	#endregion
 }
+
+/* Information for Reference:
+ * https://en.wikipedia.org/wiki/.44_Magnum
+ * https://www.americanrifleman.org/content/america-s-top-5-handgun-cartridges/
+ */
