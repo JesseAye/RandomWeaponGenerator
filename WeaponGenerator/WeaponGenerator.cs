@@ -5,6 +5,9 @@ namespace WeaponGenerator
 {
 	//For how to instantiate object with certain class type based on Enum value:
 	//https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465
+	/// <summary>
+	/// Generates different types of weapons randomly with random stats
+	/// </summary>
 	public class WeaponGenerator
 	{
 		private ushort _singleActionRevolverChance = 1,
@@ -25,22 +28,73 @@ namespace WeaponGenerator
 			_lightMachineGunChance = 1,
 			_assaultRifleChance = 1;
 
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort SingleActionRevolverChance { get { return _singleActionRevolverChance; } set { _singleActionRevolverChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort DoubleActionRevolverChance { get { return _doubleActionRevolverChance; } set { _doubleActionRevolverChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort FullSizedHandgunChance { get { return _fullSizedHandgunChance; } set { _fullSizedHandgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort CompactHandgunChance { get { return _compactHandgunChance; } set { _compactHandgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort SubcompactHandgunChance { get { return _subcompactHandgunChance; } set { _subcompactHandgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort MicrocompactHandgunChance { get { return _microcompactHandgunChance; } set { _microcompactHandgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort LeverActionRifleChance { get { return _leverActionRifleChance; } set { _leverActionRifleChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort BoltActionRifleChance { get { return _boltActionRifleChance; } set { _boltActionRifleChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort SemiautomaticRifleChance { get { return _semiautomaticRifleChance; } set { _semiautomaticRifleChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort BreakActionShotgunChance { get { return _breakActionShotgunChance; } set { _breakActionShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort LeverActionShotgunChance { get { return _leverActionShotgunChance; } set { _leverActionShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort PumpActionShotgunChance { get { return _pumpShotgunChance; } set { _pumpShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort SemiautomaticShotgunChance { get { return _semiautomaticShotgunChance; } set { _semiautomaticShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort SubmachineGunChance { get { return _submachineGunChance; } set { _submachineGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort HeavyMachinGunChance { get { return _heavyMachinGunChance; } set { _heavyMachinGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort LightMachineGunChance { get { return _lightMachineGunChance; } set { _lightMachineGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
 		public ushort AssaultRifleChance { get { return _assaultRifleChance; } set { _assaultRifleChance = value; } }
 
 		/// <summary>
@@ -56,11 +110,11 @@ namespace WeaponGenerator
 											+ LightMachineGunChance + AssaultRifleChance);
 			}
 		}
-		
+
 		/// <summary>
-		 /// Set all weapon types to an equal chance to generate
-		 /// </summary>
-		 /// <param name="value">The ushort to apply to all weapon type chances</param>
+		/// Set all weapon types to an equal chance to generate
+		/// </summary>
+		/// <param name="value">The ushort to apply to all weapon type chances</param>
 		public void AllWeaponsEqualChance(ushort value)
 		{
 			_singleActionRevolverChance = value;
@@ -245,25 +299,74 @@ namespace WeaponGenerator
 		}
 	}
 
+	/// <summary>
+	/// An inheritable base class for all weapons
+	/// </summary>
 	public abstract class Weapon
 	{
+		/// <summary>
+		/// How many rounds a single clip will hold
+		/// </summary>
 		protected ushort _clipSize;
+		/// <summary>
+		/// The minimum spread of the round fired
+		/// </summary>
 		protected float _minimumSpread;
+		/// <summary>
+		/// The maximum spread of the round fired
+		/// </summary>
 		protected float _maximumSpread;
+		/// <summary>
+		/// The maximum range a fired round will deliver full effect
+		/// </summary>
 		protected ushort _effectiveRange;
+		/// <summary>
+		/// The maximum range a fired round will deliver negligible, if not zero, effect
+		/// </summary>
 		protected ushort _absMaxRange;
+		/// <summary>
+		/// The weight of the weapon
+		/// </summary>
 		protected ushort _weight;
+		/// <summary>
+		/// The averaged TimeSpan it takes to reload a weapon, to be affected by _reloadTimeVariance
+		/// </summary>
 		protected TimeSpan _reloadTime;
+		/// <summary>
+		/// How much variation in the time to reload, to be used to make a quicker or slower reload based on chance
+		/// </summary>
 		protected ushort _reloadTimeVariance;
+		/// <summary>
+		/// Whether two of this weapon can be held and fired simultaneously
+		/// </summary>
 		protected bool _canDualWield;
+		/// <summary>
+		/// Whether this weapon has to be held by both hands, probably mutually exclusive to _canDualWield
+		/// </summary>
 		protected bool _isTwoHanded;
+		/// <summary>
+		/// The amount of time it takes to go from hip-fire to ADS
+		/// </summary>
 		protected TimeSpan _drawSpeed;
+		/// <summary>
+		/// The minimum TimeSpan between two rounds being fired
+		/// </summary>
 		protected TimeSpan _fireRate;
 
-		internal ushort SetClipSize { set { _clipSize = value; } }
+		/// <summary>
+		/// Set the size of the clip
+		/// </summary>
+		public ushort SetClipSize { set { _clipSize = value; } }
 
+		//TODO: Potentially needs to be changed from internal to protected
+		/// <summary>
+		/// The lowest value _clipSize can have
+		/// </summary>
 		internal abstract ushort LowerClipLimit { get; }
 
+		/// <summary>
+		/// The highest value _clipSize can have
+		/// </summary>
 		internal abstract ushort UpperClipLimit { get; }
 
 		/// <summary>
@@ -311,12 +414,21 @@ namespace WeaponGenerator
 		/// </summary>
 		public bool IsTwoHanded { get { return _isTwoHanded; } }
 
+		/// <summary>
+		/// The amount of time it takes to go from hip-fire to ADS
+		/// </summary>
 		public TimeSpan DrawSpeed { get { return _drawSpeed; } }
 
+		/// <summary>
+		/// The minimum TimeSpan between two rounds being fired
+		/// </summary>
 		public TimeSpan FireRate { get { return _fireRate; } }
 	}
 
 	#region Revolver
+	/// <summary>
+	/// An inheritable base class for Revolver type weapons
+	/// </summary>
 	public abstract class Revolver : Weapon
 	{
 		internal override ushort LowerClipLimit { get { return 5; } }
@@ -324,18 +436,33 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 12; } }
 	}
 
+	/// <summary>
+	/// Represents a Single Action Revolver
+	/// </summary>
 	public class SingleActionRevolver : Revolver
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Single Action Revolver"; } }
 	}
 
+	/// <summary>
+	/// Represents a Double Action Revolver
+	/// </summary>
 	public class DoubleActionRevolver : Revolver
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Double Action Revolver"; } }
 	}
 	#endregion
 
 	#region Handgun
+	/// <summary>
+	/// An inheritable base class for Handgun type weapons
+	/// </summary>
 	public abstract class Handgun : Weapon
 	{
 		internal override ushort LowerClipLimit { get { return 10; } }
@@ -343,32 +470,65 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 20; } }
 	}
 
+	/// <summary>
+	/// Represents a Full Sized Handgun
+	/// </summary>
 	public class FullSizedHandgun : Handgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Full Sized Handgun"; } }
 	}
 
+	/// <summary>
+	/// Represents a Compact Handgun
+	/// </summary>
 	public class CompactHandgun : Handgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Compact Handgun"; } }
 	}
 
+	/// <summary>
+	/// Represents a Subcompact Handgun
+	/// </summary>
 	public class SubcompactHandgun : Handgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Subcompact Handgun"; } }
 	}
 
+	/// <summary>
+	/// Represents a Microcompact Handgun
+	/// </summary>
 	public class MicrocompactHandgun : Handgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Microcompact Handgun"; } }
 	}
 	#endregion
 
 	#region Rifle
+	/// <summary>
+	/// An inheritable base class for Rifle type weapons
+	/// </summary>
 	public abstract class Rifle : Weapon { }
 
+	/// <summary>
+	/// Represents a Lever Action Rifle
+	/// </summary>
 	public class LeverActionRifle : Rifle
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Lever Action Rifle"; } }
 
 		internal override ushort LowerClipLimit { get { return 4; } }
@@ -376,8 +536,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 17; } }
 	}
 
+	/// <summary>
+	/// Represents a Bolt Action Rifle
+	/// </summary>
 	public class BoltActionRifle : Rifle
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Bolt Action Rifle"; } }
 
 		internal override ushort LowerClipLimit { get { return 2; } }
@@ -385,8 +551,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 10; } }
 	}
 
+	/// <summary>
+	/// Represents a Semiautomatic Rifle
+	/// </summary>
 	public class SemiautomaticRifle : Rifle
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Semiautomatic Rifle"; } }
 
 		internal override ushort LowerClipLimit { get { return 5; } }
@@ -396,10 +568,19 @@ namespace WeaponGenerator
 	#endregion
 
 	#region Shotgun
+	/// <summary>
+	/// An inheritable base class for Shotgun type weapons
+	/// </summary>
 	public abstract class Shotgun : Weapon { }
 
+	/// <summary>
+	/// Represents a Break Action Shotgun
+	/// </summary>
 	public class BreakActionShotgun : Shotgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Break Action Shotgun"; } }
 
 		internal override ushort LowerClipLimit { get { return 1; } }
@@ -407,8 +588,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 2; } }
 	}
 
+	/// <summary>
+	/// Represents a Lever Action Shotgun
+	/// </summary>
 	public class LeverActionShotgun : Shotgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Lever Action Shotgun"; } }
 
 		internal override ushort LowerClipLimit { get { return 5; } }
@@ -416,8 +603,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 6; } }
 	}
 
+	/// <summary>
+	/// Represents a Pump Action Shotgun
+	/// </summary>
 	public class PumpActionShotgun : Shotgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Pump Action Shotgun"; } }
 
 		internal override ushort LowerClipLimit { get { return 4; } }
@@ -425,8 +618,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 5; } }
 	}
 
+	/// <summary>
+	/// Represents a Semiautomatic Shotgun
+	/// </summary>
 	public class SemiautomaticShotgun : Shotgun
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Semiautomatic Shotgun"; } }
 
 		internal override ushort LowerClipLimit { get { return 3; } }
@@ -436,10 +635,19 @@ namespace WeaponGenerator
 	#endregion
 
 	#region Automatics
+	/// <summary>
+	/// An inheritable base class for Automatic type weapons
+	/// </summary>
 	public abstract class Automatics : Weapon { }
 
+	/// <summary>
+	/// Represents a Submachine Gun
+	/// </summary>
 	public class SubmachineGun : Automatics
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Submachine Gun"; } }
 
 		internal override ushort LowerClipLimit { get { return 10; } }
@@ -447,8 +655,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 50; } }
 	}
 
+	/// <summary>
+	/// Represents a Heavy Machine Gun
+	/// </summary>
 	public class HeavyMachineGun : Automatics
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Heavy Machine Gun"; } }
 
 		internal override ushort LowerClipLimit { get { return 50; } }
@@ -456,8 +670,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 300; } }
 	}
 
+	/// <summary>
+	/// Represents a Light Machine Gun
+	/// </summary>
 	public class LightMachineGun : Automatics
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Light Machine Gun"; } }
 
 		internal override ushort LowerClipLimit { get { return 50; } }
@@ -465,8 +685,14 @@ namespace WeaponGenerator
 		internal override ushort UpperClipLimit { get { return 100; } }
 	}
 
+	/// <summary>
+	/// Represents an Assault Rifle
+	/// </summary>
 	public class AssaultRifle : Automatics
 	{
+		/// <summary>
+		/// The weapon's normal name
+		/// </summary>
 		public override string WeaponName { get { return "Assault Rifle"; } }
 
 		internal override ushort LowerClipLimit { get { return 15; } }
@@ -476,24 +702,78 @@ namespace WeaponGenerator
 	#endregion
 
 	//Ref: https://legionary.com/all-types-of-guns-with-pictures-and-names/
+	/// <summary>
+	/// Represents the different available weapon types able to be generated
+	/// </summary>
 	public enum WeaponType
 	{
+		/// <summary>
+		/// A single action revolver
+		/// </summary>
 		SingleActionRevolver,
+		/// <summary>
+		/// A double action revolver
+		/// </summary>
 		DoubleActionRevolver,
+		/// <summary>
+		/// A full sized handgun
+		/// </summary>
 		FullSizedHandgun,
+		/// <summary>
+		/// A compact handgun
+		/// </summary>
 		CompactHandgun,
+		/// <summary>
+		/// A subcompact handgun
+		/// </summary>
 		SubcompactHandgun,
+		/// <summary>
+		/// A microcompact handgun
+		/// </summary>
 		MicrocompactHandgun,
+		/// <summary>
+		/// A lever action rifle
+		/// </summary>
 		LeverActionRifle,
+		/// <summary>
+		/// A bolt action rifle
+		/// </summary>
 		BoltActionRifle,
+		/// <summary>
+		/// A semiautomatic rifle
+		/// </summary>
 		SemiautomaticRifle,
+		/// <summary>
+		/// A break action shotgun
+		/// </summary>
 		BreakActionShotgun,
+		/// <summary>
+		/// A lever action shotgun
+		/// </summary>
 		LeverActionShotgun,
+		/// <summary>
+		/// A pump action shotgun
+		/// </summary>
 		PumpActionShotgun,
+		/// <summary>
+		/// A semiautomatic shotgun
+		/// </summary>
 		SemiautomaticShotgun,
+		/// <summary>
+		/// A submachine gun
+		/// </summary>
 		SubmachineGun,
+		/// <summary>
+		/// A heavy machine gun
+		/// </summary>
 		HeavyMachineGun,
+		/// <summary>
+		/// A light machine gun
+		/// </summary>
 		LightMachineGun,
+		/// <summary>
+		/// An assault rifle
+		/// </summary>
 		AssaultRifle
 	}
 }
