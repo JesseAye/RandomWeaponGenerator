@@ -454,7 +454,7 @@ namespace WeaponGenerator
 		{
 			_weight = 979; // S&W Model 29
 			_validAmmunition = new Dictionary<Ammunition, ushort>();
-			_validAmmunition.Add(Ammunition)
+			_validAmmunition.Add()
 		}
 	}
 
@@ -821,6 +821,10 @@ namespace WeaponGenerator
 		/// For random generation, the maximum cartridges held in this storage unit
 		/// </summary>
 		protected byte _maxCartridgesPerStorageUnit;
+		/// <summary>
+		/// 
+		/// </summary>
+		protected CartridgeStorageUnit _cartridgeStorageUnit;
 
 		/// <summary>
 		/// The amount of cartridges held in each storage unit (magazine, clip, wheel, etc.)
@@ -831,11 +835,20 @@ namespace WeaponGenerator
 		/// The type of ammunition that is loaded and fired from this weapon
 		/// </summary>
 		public Cartridge Cartridge { get { return _cartridge; } }
+
+
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public class TwentyTwoLR : Ammunition
 	{
-
+		public TwentyTwoLR(CartridgeStorageUnit cartridgeStorageUnit)
+		{
+			_cartridge = Cartridge.TwentyTwoLR;
+			_cartridgeStorageUnit = cartridgeStorageUnit;
+		}
 	}
 
 	/// <summary>
@@ -863,6 +876,28 @@ namespace WeaponGenerator
 		/// .44 Magnum
 		/// </summary>
 		FortyFourMagnum
+	}
+
+	public enum CartridgeStorageUnit
+	{
+		/// <summary>
+		/// Individual rounds are loaded into the firearm, such as break action shotguns, and potentially revolvers
+		/// </summary>
+		SingleRound,
+		/// <summary>
+		/// A (sometimes) removable cylinder holding several rounds, typically seen on revolvers
+		/// </summary>
+		Cylinder,
+		/// <summary>
+		/// A closed, typically tubular, container used to feed repeating firearms
+		/// <para/>See Also: https://en.wikipedia.org/wiki/Magazine_(firearms)
+		/// </summary>
+		Magazine,
+		/// <summary>
+		/// A non-closed "clip" or sometimes "en bloc", used to load cartridges into the internal magazine of a firearm
+		/// <para/>See Also: https://en.wikipedia.org/wiki/Clip_(firearms)
+		/// </summary>
+		Clip
 	}
 	#endregion
 }
