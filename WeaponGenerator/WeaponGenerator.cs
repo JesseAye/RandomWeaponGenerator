@@ -10,66 +10,72 @@ namespace WeaponGenerator
 	/// </summary>
 	public class WeaponGenerator
 	{
-		private Dictionary<WeaponType, ushort> _chance = new Dictionary<WeaponType, ushort>();
+		private ushort _revolverChance = 1,
+			_handgunChance = 1,
+			_boltActionRifleChance = 1,
+			_semiautomaticRifleChance = 1,
+			_breakActionShotgunChance = 1,
+			_pumpShotgunChance = 1,
+			_semiautomaticShotgunChance = 1,
+			_submachineGunChance = 1,
+			_heavyMachinGunChance = 1,
+			_lightMachineGunChance = 1,
+			_assaultRifleChance = 1;
 
 		/// <summary>
-		/// The Dictionary of chances for each WeaponType to spawn
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
 		/// </summary>
-		public Dictionary<WeaponType, ushort> Chance { get { return _chance; } }
-
+		public ushort RevolverChance { get { return _revolverChance; } set { _revolverChance = value; } }
 		/// <summary>
-		/// Set the chance to spawn value of a particular WeaponType
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
 		/// </summary>
-		/// <param name="weaponType">The WeaponType to chance spawn chance</param>
-		/// <param name="chance">The chance to spawn it</param>
-		public void SetChance(WeaponType weaponType, ushort chance)
-		{
-			_chance[weaponType] = chance;
-		}
-		
+		public ushort HandgunChance { get { return _handgunChance; } set { _handgunChance = value; } }
 		/// <summary>
-		/// Converts _chance into a flat array
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
 		/// </summary>
-		/// <returns>An array of WeaponType</returns>
-		private WeaponType[] FlattenChanceToArray()
-		{
-			List<WeaponType> weaponChances = new();
-
-			foreach (KeyValuePair<WeaponType, ushort> weapon in _chance)
-			{
-				for (int i = 0; i < weapon.Value; i++)
-				{
-					weaponChances.Add(weapon.Key);
-				}
-			}
-
-			return weaponChances.ToArray();
-		}
-
+		public ushort BoltActionRifleChance { get { return _boltActionRifleChance; } set { _boltActionRifleChance = value; } }
 		/// <summary>
-		/// Setup WeaponGenerator class, and add each WeaponType value to the variable Chance, all with a default value of 1
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
 		/// </summary>
-		public WeaponGenerator()
-		{
-			foreach (WeaponType weapon in Enum.GetValues(typeof(WeaponType)))
-			{
-				_chance.Add(weapon, 1);
-			}
-		}
+		public ushort SemiautomaticRifleChance { get { return _semiautomaticRifleChance; } set { _semiautomaticRifleChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort BreakActionShotgunChance { get { return _breakActionShotgunChance; } set { _breakActionShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort PumpActionShotgunChance { get { return _pumpShotgunChance; } set { _pumpShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort SemiautomaticShotgunChance { get { return _semiautomaticShotgunChance; } set { _semiautomaticShotgunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort SubmachineGunChance { get { return _submachineGunChance; } set { _submachineGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort HeavyMachinGunChance { get { return _heavyMachinGunChance; } set { _heavyMachinGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort LightMachineGunChance { get { return _lightMachineGunChance; } set { _lightMachineGunChance = value; } }
+		/// <summary>
+		/// The chance to spawn this weapon; the higher the number, the higher the chance
+		/// </summary>
+		public ushort AssaultRifleChance { get { return _assaultRifleChance; } set { _assaultRifleChance = value; } }
 
 		/// <summary>
 		/// Sum of all weapon generation chances
 		/// </summary>
-		public ushort TotalChance
+		public uint TotalChance
 		{
 			get
 			{
-				ushort val = 0;
-				foreach (ushort value in Chance.Values)
-				{
-					val += value;
-				}
-				return val;
+				return Convert.ToUInt32(RevolverChance + HandgunChance + BoltActionRifleChance + SemiautomaticRifleChance + BreakActionShotgunChance + PumpActionShotgunChance
+										+ SemiautomaticShotgunChance + SubmachineGunChance + HeavyMachinGunChance + LightMachineGunChance + AssaultRifleChance);
 			}
 		}
 
@@ -79,10 +85,17 @@ namespace WeaponGenerator
 		/// <param name="value">The ushort to apply to all weapon type chances</param>
 		public void AllWeaponsEqualChance(ushort value)
 		{
-			foreach (WeaponType weaponType in _chance.Keys)
-			{
-				_chance[weaponType] = value;
-			}
+			_revolverChance = value;
+			_handgunChance = value;
+			_boltActionRifleChance = value;
+			_semiautomaticRifleChance = value;
+			_breakActionShotgunChance = value;
+			_pumpShotgunChance = value;
+			_semiautomaticShotgunChance = value;
+			_submachineGunChance = value;
+			_heavyMachinGunChance = value;
+			_lightMachineGunChance = value;
+			_assaultRifleChance = value;
 		}
 
 		/// <summary>
@@ -95,7 +108,9 @@ namespace WeaponGenerator
 			Random rand_Weapon = new();
 			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 
-			weapon = GetWeapon(FlattenChanceToArray()[rand]);
+			List<WeaponType> ChancePool = CreateChancePool();
+
+			weapon = GetWeapon(ChancePool[rand]);
 			SetupWeapon(ref weapon);
 
 			return weapon;
@@ -111,7 +126,7 @@ namespace WeaponGenerator
 			Weapon[] weapon = new Weapon[Amount];
 			Random rand_Weapon = new();
 			int rand;
-			WeaponType[] ChancePool = FlattenChanceToArray();
+			List<WeaponType> ChancePool = CreateChancePool();
 
 			for (int i = 0; i < Amount; i++)
 			{
@@ -131,6 +146,72 @@ namespace WeaponGenerator
 		{
 			Random rand_ClipSize = new();
 			weapon.SetClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon.LowerClipLimit, weapon.UpperClipLimit));
+		}
+
+		/// <summary>
+		/// Creates a List of type WeaponType representing a chance pool for a random number generator to pick from
+		/// </summary>
+		/// <returns>The chance pool itself, to be used by a Random number generator to pick from</returns>
+		private List<WeaponType> CreateChancePool()
+		{
+			List<WeaponType> ChancePool = new();
+
+			for (int i = 0; i < RevolverChance; i++)
+			{
+				ChancePool.Add(WeaponType.Revolver);
+			}
+
+			for (int i = 0; i < HandgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.Handgun);
+			}
+
+			for (int i = 0; i < BoltActionRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.BoltActionRifle);
+			}
+
+			for (int i = 0; i < SemiautomaticRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.SemiautomaticRifle);
+			}
+
+			for (int i = 0; i < BreakActionShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.BreakActionShotgun);
+			}
+
+			for (int i = 0; i < PumpActionShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.PumpActionShotgun);
+			}
+
+			for (int i = 0; i < SemiautomaticShotgunChance; i++)
+			{
+				ChancePool.Add(WeaponType.SemiautomaticShotgun);
+			}
+
+			for (int i = 0; i < SubmachineGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.SubmachineGun);
+			}
+
+			for (int i = 0; i < HeavyMachinGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.HeavyMachineGun);
+			}
+
+			for (int i = 0; i < LightMachineGunChance; i++)
+			{
+				ChancePool.Add(WeaponType.LightMachineGun);
+			}
+
+			for (int i = 0; i < AssaultRifleChance; i++)
+			{
+				ChancePool.Add(WeaponType.AssaultRifle);
+			}
+
+			return ChancePool;
 		}
 
 		/// <summary>

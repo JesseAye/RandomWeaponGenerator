@@ -2,7 +2,6 @@
 
 namespace WeaponGenerator
 {
-	/// <inheritdoc/>
 	/// <summary>
 	/// An inheritable base class for all weapons
 	/// </summary>
@@ -130,46 +129,28 @@ namespace WeaponGenerator
 	}
 	#region Revolver
 	/// <summary>
-	/// A class for Revolver type weapons
+	/// An inheritable base class for Revolver type weapons
 	/// </summary>
 	public class Revolver : Weapon
 	{
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override string WeaponName { get { return "Revoler"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 5; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 12; } }
 	}
 	#endregion
 
 	#region Handgun
 	/// <summary>
-	/// A class for Handgun type weapons
+	/// An inheritable base class for Handgun type weapons
 	/// </summary>
 	public class Handgun : Weapon
 	{
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 10; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 20; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override string WeaponName { get { return "Handgun"; } }
 	}
 	#endregion
@@ -186,18 +167,12 @@ namespace WeaponGenerator
 	public class BoltActionRifle : Rifle
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Bolt Action Rifle"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 2; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 10; } }
 	}
 
@@ -207,17 +182,12 @@ namespace WeaponGenerator
 	public class SemiautomaticRifle : Rifle
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Semiautomatic Rifle"; } }
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
+
 		public override ushort LowerClipLimit { get { return 5; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 30; } }
 	}
 	#endregion
@@ -234,18 +204,12 @@ namespace WeaponGenerator
 	public class BreakActionShotgun : Shotgun
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Break Action Shotgun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 1; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 2; } }
 	}
 
@@ -255,18 +219,12 @@ namespace WeaponGenerator
 	public class PumpActionShotgun : Shotgun
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Pump Action Shotgun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 4; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 5; } }
 	}
 
@@ -276,18 +234,12 @@ namespace WeaponGenerator
 	public class SemiautomaticShotgun : Shotgun
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Semiautomatic Shotgun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 3; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 9; } }
 	}
 	#endregion
@@ -304,18 +256,12 @@ namespace WeaponGenerator
 	public class SubmachineGun : Automatics
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Submachine Gun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 10; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 50; } }
 	}
 
@@ -325,18 +271,12 @@ namespace WeaponGenerator
 	public class HeavyMachineGun : Automatics
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Heavy Machine Gun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 50; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 300; } }
 	}
 
@@ -346,18 +286,12 @@ namespace WeaponGenerator
 	public class LightMachineGun : Automatics
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Light Machine Gun"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 50; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 100; } }
 	}
 
@@ -367,18 +301,12 @@ namespace WeaponGenerator
 	public class AssaultRifle : Automatics
 	{
 		/// <summary>
-		/// <inheritdoc/>
+		/// The weapon's normal name
 		/// </summary>
 		public override string WeaponName { get { return "Assault Rifle"; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort LowerClipLimit { get { return 15; } }
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
 		public override ushort UpperClipLimit { get { return 30; } }
 	}
 	#endregion

@@ -55,7 +55,7 @@ namespace WeaponGenerator.Tests
 			WeaponGenerator weaponGen = new();
 			weaponGen.AllWeaponsEqualChance(0);
 
-			weaponGen.SetChance(WeaponType.Revolver, 1);
+			weaponGen.RevolverChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -64,8 +64,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 5 && clip <= 12);
 			}
 
-			weaponGen.SetChance(WeaponType.Revolver, 0);
-			weaponGen.SetChance(WeaponType.Handgun, 1);
+			weaponGen.RevolverChance = 0;
+			weaponGen.HandgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -74,8 +74,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 10 && clip <= 20);
 			}
 
-			weaponGen.SetChance(WeaponType.Handgun, 0);
-			weaponGen.SetChance(WeaponType.BoltActionRifle, 1);
+			weaponGen.HandgunChance = 0;
+			weaponGen.BoltActionRifleChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -84,8 +84,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 2 && clip <= 10);
 			}
 
-			weaponGen.SetChance(WeaponType.BoltActionRifle, 0);
-			weaponGen.SetChance(WeaponType.SemiautomaticRifle, 1);
+			weaponGen.BoltActionRifleChance = 0;
+			weaponGen.SemiautomaticRifleChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -94,8 +94,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 5 && clip <= 30);
 			}
 
-			weaponGen.SetChance(WeaponType.SemiautomaticRifle, 0);
-			weaponGen.SetChance(WeaponType.BreakActionShotgun, 1);
+			weaponGen.SemiautomaticRifleChance = 0;
+			weaponGen.BreakActionShotgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -104,8 +104,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 1 && clip <= 2);
 			}
 
-			weaponGen.SetChance(WeaponType.BreakActionShotgun, 0);
-			weaponGen.SetChance(WeaponType.PumpActionShotgun, 1);
+			weaponGen.BreakActionShotgunChance = 0;
+			weaponGen.PumpActionShotgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -114,8 +114,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 4 && clip <= 5);
 			}
 
-			weaponGen.SetChance(WeaponType.PumpActionShotgun, 0);
-			weaponGen.SetChance(WeaponType.SemiautomaticShotgun, 1);
+			weaponGen.PumpActionShotgunChance = 0;
+			weaponGen.SemiautomaticShotgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -124,8 +124,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 3 && clip <= 9);
 			}
 
-			weaponGen.SetChance(WeaponType.SemiautomaticShotgun, 0);
-			weaponGen.SetChance(WeaponType.SubmachineGun, 1);
+			weaponGen.SemiautomaticShotgunChance = 0;
+			weaponGen.SubmachineGunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -134,8 +134,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 10 && clip <= 50);
 			}
 
-			weaponGen.SetChance(WeaponType.SubmachineGun, 0);
-			weaponGen.SetChance(WeaponType.HeavyMachineGun, 1);
+			weaponGen.SubmachineGunChance = 0;
+			weaponGen.HeavyMachinGunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -144,8 +144,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 50 && clip <= 300);
 			}
 
-			weaponGen.SetChance(WeaponType.HeavyMachineGun, 0);
-			weaponGen.SetChance(WeaponType.LightMachineGun, 1);
+			weaponGen.HeavyMachinGunChance = 0;
+			weaponGen.LightMachineGunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -154,8 +154,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 50 && clip <= 100);
 			}
 
-			weaponGen.SetChance(WeaponType.LightMachineGun, 0);
-			weaponGen.SetChance(WeaponType.AssaultRifle, 1);
+			weaponGen.LightMachineGunChance = 0;
+			weaponGen.AssaultRifleChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -163,6 +163,8 @@ namespace WeaponGenerator.Tests
 
 				Assert.IsTrue(clip >= 15 && clip <= 30);
 			}
+
+			weaponGen.AssaultRifleChance = 0;
 		}
 	}
 }

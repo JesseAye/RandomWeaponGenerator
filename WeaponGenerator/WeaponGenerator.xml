@@ -5,7 +5,6 @@
     </assembly>
     <members>
         <member name="T:WeaponGenerator.Weapon">
-            <inheritdoc/>
             <summary>
             An inheritable base class for all weapons
             </summary>
@@ -142,42 +141,12 @@
         </member>
         <member name="T:WeaponGenerator.Revolver">
             <summary>
-            A class for Revolver type weapons
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Revolver.WeaponName">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Revolver.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Revolver.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            An inheritable base class for Revolver type weapons
             </summary>
         </member>
         <member name="T:WeaponGenerator.Handgun">
             <summary>
-            A class for Handgun type weapons
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Handgun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Handgun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Handgun.WeaponName">
-            <summary>
-            <inheritdoc/>
+            An inheritable base class for Handgun type weapons
             </summary>
         </member>
         <member name="T:WeaponGenerator.Rifle">
@@ -192,17 +161,7 @@
         </member>
         <member name="P:WeaponGenerator.BoltActionRifle.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.BoltActionRifle.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.BoltActionRifle.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.SemiautomaticRifle">
@@ -212,17 +171,7 @@
         </member>
         <member name="P:WeaponGenerator.SemiautomaticRifle.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SemiautomaticRifle.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SemiautomaticRifle.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.Shotgun">
@@ -237,17 +186,7 @@
         </member>
         <member name="P:WeaponGenerator.BreakActionShotgun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.BreakActionShotgun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.BreakActionShotgun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.PumpActionShotgun">
@@ -257,17 +196,7 @@
         </member>
         <member name="P:WeaponGenerator.PumpActionShotgun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.PumpActionShotgun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.PumpActionShotgun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.SemiautomaticShotgun">
@@ -277,17 +206,7 @@
         </member>
         <member name="P:WeaponGenerator.SemiautomaticShotgun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.Automatics">
@@ -302,17 +221,7 @@
         </member>
         <member name="P:WeaponGenerator.SubmachineGun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SubmachineGun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.SubmachineGun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.HeavyMachineGun">
@@ -322,17 +231,7 @@
         </member>
         <member name="P:WeaponGenerator.HeavyMachineGun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.HeavyMachineGun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.HeavyMachineGun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.LightMachineGun">
@@ -342,17 +241,7 @@
         </member>
         <member name="P:WeaponGenerator.LightMachineGun.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.LightMachineGun.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.LightMachineGun.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.AssaultRifle">
@@ -362,17 +251,7 @@
         </member>
         <member name="P:WeaponGenerator.AssaultRifle.WeaponName">
             <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.AssaultRifle.LowerClipLimit">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.AssaultRifle.UpperClipLimit">
-            <summary>
-            <inheritdoc/>
+            The weapon's normal name
             </summary>
         </member>
         <member name="T:WeaponGenerator.WeaponType">
@@ -440,27 +319,59 @@
             Generates different types of weapons randomly with random stats
             </summary>
         </member>
-        <member name="P:WeaponGenerator.WeaponGenerator.Chance">
+        <member name="P:WeaponGenerator.WeaponGenerator.RevolverChance">
             <summary>
-            The Dictionary of chances for each WeaponType to spawn
+            The chance to spawn this weapon; the higher the number, the higher the chance
             </summary>
         </member>
-        <member name="M:WeaponGenerator.WeaponGenerator.SetChance(WeaponGenerator.WeaponType,System.UInt16)">
+        <member name="P:WeaponGenerator.WeaponGenerator.HandgunChance">
             <summary>
-            Set the chance to spawn value of a particular WeaponType
+            The chance to spawn this weapon; the higher the number, the higher the chance
             </summary>
-            <param name="weaponType">The WeaponType to chance spawn chance</param>
-            <param name="chance">The chance to spawn it</param>
         </member>
-        <member name="M:WeaponGenerator.WeaponGenerator.FlattenChanceToArray">
+        <member name="P:WeaponGenerator.WeaponGenerator.BoltActionRifleChance">
             <summary>
-            Converts _chance into a flat array
+            The chance to spawn this weapon; the higher the number, the higher the chance
             </summary>
-            <returns>An array of WeaponType</returns>
         </member>
-        <member name="M:WeaponGenerator.WeaponGenerator.#ctor">
+        <member name="P:WeaponGenerator.WeaponGenerator.SemiautomaticRifleChance">
             <summary>
-            Setup WeaponGenerator class, and add each WeaponType value to the variable Chance, all with a default value of 1
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.BreakActionShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.PumpActionShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.SemiautomaticShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.SubmachineGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.HeavyMachinGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.LightMachineGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.AssaultRifleChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
             </summary>
         </member>
         <member name="P:WeaponGenerator.WeaponGenerator.TotalChance">
@@ -492,6 +403,12 @@
             Assists in setting up the weapon
             </summary>
             <param name="weapon">The reference of the weapon to setup</param>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.CreateChancePool">
+            <summary>
+            Creates a List of type WeaponType representing a chance pool for a random number generator to pick from
+            </summary>
+            <returns>The chance pool itself, to be used by a Random number generator to pick from</returns>
         </member>
         <member name="M:WeaponGenerator.WeaponGenerator.GetWeapon(WeaponGenerator.WeaponType)">
             <summary>
