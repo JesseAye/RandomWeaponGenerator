@@ -55,7 +55,7 @@ namespace WeaponGenerator.Tests
 			WeaponGenerator weaponGen = new();
 			weaponGen.AllWeaponsEqualChance(0);
 
-			weaponGen.SingleActionRevolverChance = 1;
+			weaponGen.RevolverChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -64,18 +64,8 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 5 && clip <= 12);
 			}
 
-			weaponGen.SingleActionRevolverChance = 0;
-			weaponGen.DoubleActionRevolverChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 5 && clip <= 12);
-			}
-
-			weaponGen.DoubleActionRevolverChance = 0;
-			weaponGen.FullSizedHandgunChance = 1;
+			weaponGen.RevolverChance = 0;
+			weaponGen.HandgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -84,47 +74,7 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 10 && clip <= 20);
 			}
 
-			weaponGen.FullSizedHandgunChance = 0;
-			weaponGen.CompactHandgunChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 10 && clip <= 20);
-			}
-
-			weaponGen.CompactHandgunChance = 0;
-			weaponGen.SubcompactHandgunChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 10 && clip <= 20);
-			}
-
-			weaponGen.SubcompactHandgunChance = 0;
-			weaponGen.MicrocompactHandgunChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 10 && clip <= 20);
-			}
-
-			weaponGen.MicrocompactHandgunChance = 0;
-			weaponGen.LeverActionRifleChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 4 && clip <= 17);
-			}
-
-			weaponGen.LeverActionRifleChance = 0;
+			weaponGen.HandgunChance = 0;
 			weaponGen.BoltActionRifleChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
@@ -155,16 +105,6 @@ namespace WeaponGenerator.Tests
 			}
 
 			weaponGen.BreakActionShotgunChance = 0;
-			weaponGen.LeverActionShotgunChance = 1;
-
-			for (int i = 0; i < IterationsToTest; i++)
-			{
-				ushort clip = weaponGen.GenerateRandomWeapon().ClipSize;
-
-				Assert.IsTrue(clip >= 5 && clip <= 6);
-			}
-
-			weaponGen.LeverActionShotgunChance = 0;
 			weaponGen.PumpActionShotgunChance = 1;
 
 			for (int i = 0; i < IterationsToTest; i++)
