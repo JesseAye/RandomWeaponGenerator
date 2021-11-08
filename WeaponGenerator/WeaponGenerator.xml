@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeaponGenerator</name>
+    </assembly>
+    <members>
+        <member name="T:WeaponGenerator.Weapon">
+            <summary>
+            An inheritable base class for all weapons
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._clipSize">
+            <summary>
+            How many rounds a single clip will hold
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._minimumSpread">
+            <summary>
+            The minimum spread of the round fired
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._maximumSpread">
+            <summary>
+            The maximum spread of the round fired
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._effectiveRange">
+            <summary>
+            The maximum range a fired round will deliver full effect
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._absMaxRange">
+            <summary>
+            The maximum range a fired round will deliver negligible, if not zero, effect
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._weight">
+            <summary>
+            The weight of the weapon
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._reloadTime">
+            <summary>
+            The averaged TimeSpan it takes to reload a weapon, to be affected by _reloadTimeVariance
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._reloadTimeVariance">
+            <summary>
+            How much variation in the time to reload, to be used to make a quicker or slower reload based on chance
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._canDualWield">
+            <summary>
+            Whether two of this weapon can be held and fired simultaneously
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._isTwoHanded">
+            <summary>
+            Whether this weapon has to be held by both hands, probably mutually exclusive to _canDualWield
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._drawSpeed">
+            <summary>
+            The amount of time it takes to go from hip-fire to ADS
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._fireRate">
+            <summary>
+            The minimum TimeSpan between two rounds being fired
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.SetClipSize">
+            <summary>
+            Set the size of the clip
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerClipLimit">
+            <summary>
+            The lowest value _clipSize can have
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperClipLimit">
+            <summary>
+            The highest value _clipSize can have
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.WeaponName">
+            <summary>
+            This weapon's normal name
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ClipSize">
+            <summary>
+            The amount of rounds in each clip
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.MinimumSpread">
+            <summary>
+            The minimum spread pattern the fired projectile will follow
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.MaximumSpread">
+            <summary>
+            The maximum spread pattern the fired projectile will folow
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.EffectiveRange">
+            <summary>
+            The distance the firearm will shoot a projectile and have full effectiveness
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.Weight">
+            <summary>
+            The weight of the firearm
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTime">
+            <summary>
+            The amount of time it takes to reload the firearm
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.CanDualWield">
+            <summary>
+            Whether this firearm can be dual wielded
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.IsTwoHanded">
+            <summary>
+            Whether this firearm requires being held by two hands
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeed">
+            <summary>
+            The amount of time it takes to go from hip-fire to ADS
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRate">
+            <summary>
+            The minimum TimeSpan between two rounds being fired
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Revolver">
+            <summary>
+            An inheritable base class for Revolver type weapons
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Handgun">
+            <summary>
+            An inheritable base class for Handgun type weapons
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Rifle">
+            <summary>
+            An inheritable base class for Rifle type weapons
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.BoltActionRifle">
+            <summary>
+            Represents a Bolt Action Rifle
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SemiautomaticRifle">
+            <summary>
+            Represents a Semiautomatic Rifle
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Shotgun">
+            <summary>
+            An inheritable base class for Shotgun type weapons
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.BreakActionShotgun">
+            <summary>
+            Represents a Break Action Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.PumpActionShotgun">
+            <summary>
+            Represents a Pump Action Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SemiautomaticShotgun">
+            <summary>
+            Represents a Semiautomatic Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Automatics">
+            <summary>
+            An inheritable base class for Automatic type weapons
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SubmachineGun">
+            <summary>
+            Represents a Submachine Gun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.HeavyMachineGun">
+            <summary>
+            Represents a Heavy Machine Gun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.LightMachineGun">
+            <summary>
+            Represents a Light Machine Gun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.AssaultRifle">
+            <summary>
+            Represents an Assault Rifle
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.WeaponName">
+            <summary>
+            The weapon's normal name
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.WeaponType">
+            <summary>
+            Represents the different available weapon types able to be generated
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.Revolver">
+            <summary>
+            A revolver
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.Handgun">
+            <summary>
+            A full sized semiautomatic handgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.BoltActionRifle">
+            <summary>
+            A bolt action rifle
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SemiautomaticRifle">
+            <summary>
+            A semiautomatic rifle
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.BreakActionShotgun">
+            <summary>
+            A break action shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.PumpActionShotgun">
+            <summary>
+            A pump action shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SemiautomaticShotgun">
+            <summary>
+            A semiautomatic shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SubmachineGun">
+            <summary>
+            A submachine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.HeavyMachineGun">
+            <summary>
+            A heavy machine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.LightMachineGun">
+            <summary>
+            A light machine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.AssaultRifle">
+            <summary>
+            An assault rifle
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.WeaponGenerator">
+            <summary>
+            Generates different types of weapons randomly with random stats
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.RevolverChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.HandgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.BoltActionRifleChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.SemiautomaticRifleChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.BreakActionShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.PumpActionShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.SemiautomaticShotgunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.SubmachineGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.HeavyMachinGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.LightMachineGunChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.AssaultRifleChance">
+            <summary>
+            The chance to spawn this weapon; the higher the number, the higher the chance
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.TotalChance">
+            <summary>
+            Sum of all weapon generation chances
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.AllWeaponsEqualChance(System.UInt16)">
+            <summary>
+            Set all weapon types to an equal chance to generate
+            </summary>
+            <param name="value">The ushort to apply to all weapon type chances</param>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GenerateRandomWeapon">
+            <summary>
+            Generate a random object with a base type of Weapon
+            </summary>
+            <returns>Instance of any of the weapons</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GenerateRandomWeapon(System.Int32)">
+            <summary>
+            Generate multiple objects with a base type of Weapon
+            </summary>
+            <param name="Amount">The amount of weapons to generate</param>
+            <returns>Array of instances of any of the weapon</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.SetupWeapon(WeaponGenerator.Weapon@)">
+            <summary>
+            Assists in setting up the weapon
+            </summary>
+            <param name="weapon">The reference of the weapon to setup</param>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.CreateChancePool">
+            <summary>
+            Creates a List of type WeaponType representing a chance pool for a random number generator to pick from
+            </summary>
+            <returns>The chance pool itself, to be used by a Random number generator to pick from</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GetWeapon(WeaponGenerator.WeaponType)">
+            <summary>
+            Convert the WeaponType into the actual type it represents
+            </summary>
+            <param name="weaponType">WeaponType to create</param>
+            <seealso href="https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465">Thanks MatteoSp!</seealso>
+            <returns>An instance of the WeaponType</returns>
+        </member>
+    </members>
+</doc>
