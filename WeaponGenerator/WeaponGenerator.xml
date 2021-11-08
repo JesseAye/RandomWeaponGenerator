@@ -493,6 +493,12 @@
             </summary>
             <param name="weapon">The reference of the weapon to setup</param>
         </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.CreateChancePool">
+            <summary>
+            Creates a List of type WeaponType representing a chance pool for a random number generator to pick from
+            </summary>
+            <returns>The chance pool itself, to be used by a Random number generator to pick from</returns>
+        </member>
         <member name="M:WeaponGenerator.WeaponGenerator.GetWeapon(WeaponGenerator.WeaponType)">
             <summary>
             Convert the WeaponType into the actual type it represents
