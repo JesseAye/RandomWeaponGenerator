@@ -164,5 +164,15 @@ namespace WeaponGenerator.Tests
 				Assert.IsTrue(clip >= 15 && clip <= 30);
 			}
 		}
+
+		[TestMethod]
+		public void TestStdDev()
+		{
+			for (int i = 0; i < IterationsToTest; i++)
+			{
+				ushort test = WeaponGenerator.RandomGenerationBellCurve(50, 300);
+				Assert.IsTrue(test is >= 50 and <= 300);
+			}
+		}
 	}
 }

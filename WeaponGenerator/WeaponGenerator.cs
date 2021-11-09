@@ -148,5 +148,37 @@ namespace WeaponGenerator
 
 			return weapon;
 		}
+
+		//This helped me understand Normal Distributions: https://www.easycalculation.com/statistics/bell-curve-calculator.php
+		//This gave me the base code: https://www.reddit.com/r/Unity2D/comments/48058a/how_to_approximate_a_bell_curve_gaussian/
+		/// <summary>
+		/// Normal distribution bell curve base for clip size with a target Normal Distribution of 95.45%
+		/// </summary>
+		/// <param name="MinimumRounds">The minimum amount of rounds the clip can hold</param>
+		/// <param name="MaximumRounds">The maximum amount of rounds the clip can hold</param>
+		/// <returns>A random number, with a mean in the center of MinimumRounds and MaximumRounds</returns>
+		public static ushort RandomGenerationBellCurve(ushort MinimumRounds, ushort MaximumRounds)
+		{
+			Random rnd = new Random();
+			float Mean = (MinimumRounds + MaximumRounds) / 2;
+			float StdDev = (Mean - MinimumRounds) / 2;
+			ushort data;
+			float generatedFloat;
+
+			//TODO: Shift distribution closer to MinimumRounds
+			do
+			{
+				float u1 = float.Parse(rnd.NextDouble().ToString());
+				float u2 = float.Parse(rnd.NextDouble().ToString());
+				float randStdNormal = float.Parse((Math.Sqrt(-2.0f * Math.Log(u1)) * Math.Sin(2.0f * Math.PI * u2)).ToString());
+
+				generatedFloat = Mean + StdDev * randStdNormal;
+			} while ((generatedFloat < MinimumRounds) || (generatedFloat > MaximumRounds));
+
+			Decimal generatedDecimal = Convert.ToDecimal(generatedFloat);
+			data = Convert.ToUInt16(Decimal.Round(generatedDecimal, 0, MidpointRounding.ToPositiveInfinity));
+
+			return data;
+		}
 	}
 }
