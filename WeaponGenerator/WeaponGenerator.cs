@@ -129,8 +129,7 @@ namespace WeaponGenerator
 		/// <param name="weapon">The reference of the weapon to setup</param>
 		private static void SetupWeapon(ref Weapon weapon)
 		{
-			Random rand_ClipSize = new();
-			weapon.SetClipSize = Convert.ToUInt16(rand_ClipSize.Next(weapon.LowerClipLimit, weapon.UpperClipLimit));
+			weapon.SetClipSize = RandomExtension.NormalDistribution(weapon.LowerClipLimit, weapon.UpperClipLimit, .5f, 3);
 		}
 
 		/// <summary>
@@ -149,6 +148,13 @@ namespace WeaponGenerator
 			return weapon;
 		}
 
+	}
+
+	/// <summary>
+	/// Extends functionality of Random class
+	/// </summary>
+	public static class RandomExtension
+	{
 		//This helped me understand Normal Distributions: https://www.easycalculation.com/statistics/bell-curve-calculator.php
 		//This gave me the base code: https://www.reddit.com/r/Unity2D/comments/48058a/how_to_approximate_a_bell_curve_gaussian/
 		/// <summary>
@@ -159,7 +165,7 @@ namespace WeaponGenerator
 		/// <param name="ModifyMeanPercent">Shift the curve of distribution (Mean * ModifyMeanPercent)</param>
 		/// <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
 		/// <returns></returns>
-		public static ushort NormalDistribution(ushort LeftTail,  ushort RightTail, float ModifyMeanPercent = 1, float StandardDeviations = 1)
+		public static ushort NormalDistribution(ushort LeftTail, ushort RightTail, float ModifyMeanPercent = 1, float StandardDeviations = 1)
 		{
 			Random rand = new Random();
 			float Mean = ((LeftTail + RightTail) / 2) * ModifyMeanPercent;

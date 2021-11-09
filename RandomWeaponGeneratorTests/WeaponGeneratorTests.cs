@@ -174,7 +174,7 @@ namespace WeaponGenerator.Tests
 			ushort[] Iterations = new ushort[IterationsToTest];
 			for (int i = 0; i < IterationsToTest; i++)
 			{
-				Iterations[i] = WeaponGenerator.NormalDistribution(50, 300, .5f, 3);
+				Iterations[i] = RandomExtension.NormalDistribution(50, 300, .5f, 3);
 				Assert.IsTrue(Iterations[i] is >= 50 and <= 300);
 			}
 		}
