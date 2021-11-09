@@ -165,13 +165,17 @@ namespace WeaponGenerator.Tests
 			}
 		}
 
+		/// <summary>
+		/// This probably isn't the most effective Unit Test, but let's just make sure NormalDistribution isn't horribly broken
+		/// </summary>
 		[TestMethod]
-		public void TestStdDev()
+		public void NormalDistributionTest()
 		{
+			ushort[] Iterations = new ushort[IterationsToTest];
 			for (int i = 0; i < IterationsToTest; i++)
 			{
-				ushort test = WeaponGenerator.RandomGenerationBellCurve(50, 300);
-				Assert.IsTrue(test is >= 50 and <= 300);
+				Iterations[i] = WeaponGenerator.NormalDistribution(50, 300, .5f, 3);
+				Assert.IsTrue(Iterations[i] is >= 50 and <= 300);
 			}
 		}
 	}

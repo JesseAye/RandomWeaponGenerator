@@ -152,33 +152,37 @@ namespace WeaponGenerator
 		//This helped me understand Normal Distributions: https://www.easycalculation.com/statistics/bell-curve-calculator.php
 		//This gave me the base code: https://www.reddit.com/r/Unity2D/comments/48058a/how_to_approximate_a_bell_curve_gaussian/
 		/// <summary>
-		/// Normal distribution bell curve base for clip size with a target Normal Distribution of 95.45%
+		/// Produce a random number based on a normal distribution, otherwise called Gaussian distribution.
 		/// </summary>
-		/// <param name="MinimumRounds">The minimum amount of rounds the clip can hold</param>
-		/// <param name="MaximumRounds">The maximum amount of rounds the clip can hold</param>
-		/// <returns>A random number, with a mean in the center of MinimumRounds and MaximumRounds</returns>
-		public static ushort RandomGenerationBellCurve(ushort MinimumRounds, ushort MaximumRounds)
+		/// <param name="LeftTail">The floor of the number to be generated</param>
+		/// <param name="RightTail">The ceiling of the number to be generated</param>
+		/// <param name="ModifyMeanPercent">Shift the curve of distribution (Mean * ModifyMeanPercent)</param>
+		/// <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
+		/// <returns></returns>
+		public static ushort NormalDistribution(ushort LeftTail,  ushort RightTail, float ModifyMeanPercent = 1, float StandardDeviations = 1)
 		{
-			Random rnd = new Random();
-			float Mean = (MinimumRounds + MaximumRounds) / 2;
-			float StdDev = (Mean - MinimumRounds) / 2;
-			ushort data;
+			Random rand = new Random();
+			float Mean = ((LeftTail + RightTail) / 2) * ModifyMeanPercent;
+			float StdDev = (RightTail - Mean) / StandardDeviations;
 			float generatedFloat;
+			ushort value;
 
-			//TODO: Shift distribution closer to MinimumRounds
 			do
 			{
-				float u1 = float.Parse(rnd.NextDouble().ToString());
-				float u2 = float.Parse(rnd.NextDouble().ToString());
-				float randStdNormal = float.Parse((Math.Sqrt(-2.0f * Math.Log(u1)) * Math.Sin(2.0f * Math.PI * u2)).ToString());
+				float u1 = (float)rand.NextDouble();
+				float u2 = (float)rand.NextDouble();
+				float randStdNormal = (float)(Math.Sqrt(-2.0f * Math.Log(u1)) * Math.Sin(2.0f * Math.PI * u2));
 
 				generatedFloat = Mean + StdDev * randStdNormal;
-			} while ((generatedFloat < MinimumRounds) || (generatedFloat > MaximumRounds));
+				if (generatedFloat < ushort.MinValue || generatedFloat > ushort.MaxValue)
+				{
+					value = 0;
+					continue;
+				}
+				value = Convert.ToUInt16(Decimal.Round(Convert.ToDecimal(generatedFloat), 0, MidpointRounding.ToPositiveInfinity));
+			} while ((value < LeftTail) || (value > RightTail));
 
-			Decimal generatedDecimal = Convert.ToDecimal(generatedFloat);
-			data = Convert.ToUInt16(Decimal.Round(generatedDecimal, 0, MidpointRounding.ToPositiveInfinity));
-
-			return data;
+			return value;
 		}
 	}
 }
