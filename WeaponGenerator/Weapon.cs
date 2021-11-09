@@ -12,6 +12,8 @@ namespace WeaponGenerator
 		/// How many rounds a single clip will hold
 		/// </summary>
 		protected ushort _clipSize;
+		//https://borderlands.fandom.com/wiki/Accuracy_(weapon)
+
 		/// <summary>
 		/// The minimum spread of the round fired
 		/// </summary>
@@ -60,9 +62,22 @@ namespace WeaponGenerator
 		/// <summary>
 		/// Set the size of the clip
 		/// </summary>
-		public ushort SetClipSize { set { _clipSize = value; } }
+		public ushort SetClipSize
+		{
+			set
+			{
+				if (value < LowerClipLimit || value > UpperClipLimit)
+				{
+					throw new ClipSizeOutOfRangeException();
+				}
 
-		//TODO: Potentially needs to be changed from protected to protected
+				else
+				{
+					_clipSize = value;
+				}
+			}
+		}
+
 		/// <summary>
 		/// The lowest value _clipSize can have
 		/// </summary>
@@ -86,12 +101,12 @@ namespace WeaponGenerator
 		/// <summary>
 		/// The minimum spread pattern the fired projectile will follow
 		/// </summary>
-		public float MinimumSpread { get { return _minimumSpread; } }
+		public float MinimumSpread { get => throw new NotImplementedException(); }
 
 		/// <summary>
 		/// The maximum spread pattern the fired projectile will folow
 		/// </summary>
-		public float MaximumSpread { get { return _maximumSpread; } }
+		public float MaximumSpread { get => throw new NotImplementedException(); }
 
 		/// <summary>
 		/// The distance the firearm will shoot a projectile and have full effectiveness
@@ -128,6 +143,7 @@ namespace WeaponGenerator
 		/// </summary>
 		public TimeSpan FireRate { get { return _fireRate; } }
 	}
+
 	#region Revolver
 	/// <summary>
 	/// A class for Revolver type weapons
