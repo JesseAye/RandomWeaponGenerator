@@ -60,25 +60,6 @@ namespace WeaponGenerator
 		protected TimeSpan _fireRate;
 
 		/// <summary>
-		/// Set the size of the clip
-		/// </summary>
-		public ushort SetClipSize
-		{
-			set
-			{
-				if (value < LowerClipLimit || value > UpperClipLimit)
-				{
-					throw new ClipSizeOutOfRangeException();
-				}
-
-				else
-				{
-					_clipSize = value;
-				}
-			}
-		}
-
-		/// <summary>
 		/// The lowest value _clipSize can have
 		/// </summary>
 		public abstract ushort LowerClipLimit { get; }
@@ -87,6 +68,56 @@ namespace WeaponGenerator
 		/// The highest value _clipSize can have
 		/// </summary>
 		public abstract ushort UpperClipLimit { get; }
+
+		/// <summary>
+		/// The lowest value _effectiveRange can have, should be represented as meters
+		/// </summary>
+		public abstract ushort LowerEffectiveRangeLimit { get; }
+
+		/// <summary>
+		/// The highest value _effectiveRange can have, should be represented as meters
+		/// </summary>
+		public abstract ushort UpperEffectiveRangeLimit { get; }
+
+		/// <summary>
+		/// The lowest value _weight can have, should be represented as grams
+		/// </summary>
+		public abstract ushort LowerWeightLimit { get; }
+
+		/// <summary>
+		/// The highest value _weight can have, should be represented as grams
+		/// </summary>
+		public abstract ushort UpperWeightLimit { get; }
+
+		/// <summary>
+		/// The lowest value _reloadTime can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort LowerReloadTimeLimit { get; }
+
+		/// <summary>
+		/// The highest value _reloadTime can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort UpperReloadTimeLimit { get; }
+
+		/// <summary>
+		/// The lowest value _fireRate can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort LowerFireRateLimit { get; }
+
+		/// <summary>
+		/// The highest value _fireRate can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort UpperFireRateLimit { get; }
+
+		/// <summary>
+		/// The lowest value _drawSpeed can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort LowerDrawSpeedLimit { get; }
+
+		/// <summary>
+		/// The highest value _drawSpeed can have, should be represented as milliseconds
+		/// </summary>
+		public abstract ushort UpperDrawSpeedLimit { get; }
 
 		/// <summary>
 		/// This weapon's normal name
@@ -126,12 +157,12 @@ namespace WeaponGenerator
 		/// <summary>
 		/// Whether this firearm can be dual wielded
 		/// </summary>
-		public bool CanDualWield { get { return _canDualWield; } }
+		public abstract bool CanDualWield { get; }
 
 		/// <summary>
 		/// Whether this firearm requires being held by two hands
 		/// </summary>
-		public bool IsTwoHanded { get { return _isTwoHanded; } }
+		public abstract bool IsTwoHanded { get; }
 
 		/// <summary>
 		/// The amount of time it takes to go from hip-fire to ADS
@@ -142,6 +173,20 @@ namespace WeaponGenerator
 		/// The minimum TimeSpan between two rounds being fired
 		/// </summary>
 		public TimeSpan FireRate { get { return _fireRate; } }
+
+		/// <summary>
+		/// Randomize all stats that need to be randomized based on the values setup by the derived class
+		/// </summary>
+		public Weapon()
+		{
+			_clipSize = RandomExtension.NormalDistribution(LowerClipLimit, UpperClipLimit, .5f, 3);
+			_effectiveRange = RandomExtension.NormalDistribution(LowerEffectiveRangeLimit, UpperEffectiveRangeLimit, .5f, 3);
+			_absMaxRange = (ushort)(_effectiveRange * RandomExtension.NormalDistribution_f(1, 2, 1.25f, .5f)); //Not sure I like this explicit cast from float to ushort
+			_weight = RandomExtension.NormalDistribution(LowerWeightLimit, UpperWeightLimit, 1.5f, 3);
+			_reloadTime = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerReloadTimeLimit, UpperReloadTimeLimit, 1.5f, 3));
+			_fireRate = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerFireRateLimit, UpperFireRateLimit, 1.5f, 3));
+			_drawSpeed = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerDrawSpeedLimit, UpperDrawSpeedLimit, 1.5f, 3));
+		}
 	}
 
 	#region Revolver
@@ -153,7 +198,7 @@ namespace WeaponGenerator
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override string WeaponName { get { return "Revoler"; } }
+		public override string WeaponName { get { return "Revolver"; } }
 
 		/// <summary>
 		/// <inheritdoc/>
@@ -164,6 +209,66 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 12; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 15; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 40; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 3000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 8000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 3000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 10000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 250; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 600; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 100; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 350; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return true; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return false; } }
 	}
 	#endregion
 
@@ -187,6 +292,66 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override string WeaponName { get { return "Handgun"; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 10; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 50; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 800; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 1500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 6000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 15000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 100; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 333; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return true; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return false; } }
 	}
 	#endregion
 
@@ -194,7 +359,39 @@ namespace WeaponGenerator
 	/// <summary>
 	/// An inheritable base class for Rifle type weapons
 	/// </summary>
-	public abstract class Rifle : Weapon { }
+	public abstract class Rifle : Weapon
+	{
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 25; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 150; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 250; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return false; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return true; } }
+	}
 
 	/// <summary>
 	/// Represents a Bolt Action Rifle
@@ -215,6 +412,36 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 10; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 3000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 8000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 3000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 8000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 1000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 2000; } }
 	}
 
 	/// <summary>
@@ -235,6 +462,46 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 30; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 2500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 7000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 6000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 15000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return true; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return false; } }
 	}
 	#endregion
 
@@ -242,7 +509,29 @@ namespace WeaponGenerator
 	/// <summary>
 	/// An inheritable base class for Shotgun type weapons
 	/// </summary>
-	public abstract class Shotgun : Weapon { }
+	public abstract class Shotgun : Weapon
+	{
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 5; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 30; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return false; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return true; } }
+	}
 
 	/// <summary>
 	/// Represents a Break Action Shotgun
@@ -263,6 +552,46 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 2; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 2500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 4000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 2750; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 6000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 1000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 500; } }
 	}
 
 	/// <summary>
@@ -284,6 +613,46 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 5; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 3000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 4500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 8000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 15000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 600; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 1500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 500; } }
 	}
 
 	/// <summary>
@@ -305,6 +674,46 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 9; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 2250; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 4000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 4000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 12000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 1000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 500; } }
 	}
 	#endregion
 
@@ -312,7 +721,19 @@ namespace WeaponGenerator
 	/// <summary>
 	/// An inheritable base class for Automatic type weapons
 	/// </summary>
-	public abstract class Automatics : Weapon { }
+	public abstract class Automatics : Weapon
+	{
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool CanDualWield { get { return false; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override bool IsTwoHanded { get { return true; } }
+	}
 
 	/// <summary>
 	/// Represents a Submachine Gun
@@ -333,6 +754,56 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 50; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 25; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 100; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 2500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 4500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 2100; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 4500; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 180; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 250; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 100; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 333; } }
 	}
 
 	/// <summary>
@@ -354,6 +825,56 @@ namespace WeaponGenerator
 		/// <inheritdoc/>
 		/// </summary>
 		public override ushort UpperClipLimit { get { return 300; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 1200; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 1800; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerWeightLimit { get { return 34000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperWeightLimit { get { return 42000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerReloadTimeLimit { get { return 12000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperReloadTimeLimit { get { return 20000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerFireRateLimit { get { return 45; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperFireRateLimit { get { return 133; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort LowerDrawSpeedLimit { get { return 400; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperDrawSpeedLimit { get { return 1000; } }
 	}
 
 	/// <summary>

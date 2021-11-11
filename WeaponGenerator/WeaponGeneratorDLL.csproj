@@ -7,6 +7,9 @@
     <Product />
     <AssemblyName>WeaponGenerator</AssemblyName>
     <RootNamespace>WeaponGenerator</RootNamespace>
+    <Version>0.1.0</Version>
+    <RepositoryUrl>https://github.com/JesseAye/RandomWeaponGenerator</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/JesseAye/RandomWeaponGenerator</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

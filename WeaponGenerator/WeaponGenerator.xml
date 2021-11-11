@@ -501,7 +501,12 @@
             <seealso href="https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465">Thanks MatteoSp!</seealso>
             <returns>An instance of the WeaponType</returns>
         </member>
-        <member name="M:WeaponGenerator.WeaponGenerator.NormalDistribution(System.UInt16,System.UInt16,System.Single,System.Single)">
+        <member name="T:WeaponGenerator.RandomExtension">
+            <summary>
+            Extends functionality of Random class
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.RandomExtension.NormalDistribution(System.UInt16,System.UInt16,System.Single,System.Single)">
             <summary>
             Produce a random number based on a normal distribution, otherwise called Gaussian distribution.
             </summary>

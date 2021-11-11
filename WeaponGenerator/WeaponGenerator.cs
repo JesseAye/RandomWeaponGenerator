@@ -96,7 +96,6 @@ namespace WeaponGenerator
 			int rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 
 			weapon = GetWeapon(FlattenChanceToArray()[rand]);
-			SetupWeapon(ref weapon);
 
 			return weapon;
 		}
@@ -117,19 +116,9 @@ namespace WeaponGenerator
 			{
 				rand = rand_Weapon.Next(0, Convert.ToInt32(TotalChance));
 				weapon[i] = GetWeapon(ChancePool[rand]);
-				SetupWeapon(ref weapon[i]);
 			}
 
 			return weapon;
-		}
-
-		/// <summary>
-		/// Assists in setting up the weapon
-		/// </summary>
-		/// <param name="weapon">The reference of the weapon to setup</param>
-		private static void SetupWeapon(ref Weapon weapon)
-		{
-			weapon.SetClipSize = RandomExtension.NormalDistribution(weapon.LowerClipLimit, weapon.UpperClipLimit, .5f, 3);
 		}
 
 		/// <summary>
@@ -166,6 +155,40 @@ namespace WeaponGenerator
 		/// <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
 		/// <returns></returns>
 		public static ushort NormalDistribution(ushort LeftTail, ushort RightTail, float ModifyMeanPercent = 1, float StandardDeviations = 1)
+		{
+			Random rand = new Random();
+			float Mean = ((LeftTail + RightTail) / 2) * ModifyMeanPercent;
+			float StdDev = (RightTail - Mean) / StandardDeviations;
+			float generatedFloat;
+			ushort value;
+
+			do
+			{
+				float u1 = (float)rand.NextDouble();
+				float u2 = (float)rand.NextDouble();
+				float randStdNormal = (float)(Math.Sqrt(-2.0f * Math.Log(u1)) * Math.Sin(2.0f * Math.PI * u2));
+
+				generatedFloat = Mean + StdDev * randStdNormal;
+				if (generatedFloat < ushort.MinValue || generatedFloat > ushort.MaxValue)
+				{
+					value = 0;
+					continue;
+				}
+				value = Convert.ToUInt16(Decimal.Round(Convert.ToDecimal(generatedFloat), 0, MidpointRounding.ToPositiveInfinity));
+			} while ((value < LeftTail) || (value > RightTail));
+
+			return value;
+		}
+
+		/// <summary>
+		/// Produce a random number based on a normal distribution, otherwise called Gaussian distribution.
+		/// </summary>
+		/// <param name="LeftTail">The floor of the number to be generated</param>
+		/// <param name="RightTail">The ceiling of the number to be generated</param>
+		/// <param name="ModifyMeanPercent">Shift the curve of distribution (Mean * ModifyMeanPercent)</param>
+		/// <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
+		/// <returns></returns>
+		public static float NormalDistribution_f(float LeftTail, float RightTail, float ModifyMeanPercent = 1, float StandardDeviations = 1)
 		{
 			Random rand = new Random();
 			float Mean = ((LeftTail + RightTail) / 2) * ModifyMeanPercent;
