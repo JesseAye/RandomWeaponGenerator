@@ -8,6 +8,7 @@ namespace WeaponGenerator
 	/// </summary>
 	public abstract class Weapon
 	{
+		#region Protected vars
 		/// <summary>
 		/// How many rounds a single clip will hold
 		/// </summary>
@@ -29,9 +30,13 @@ namespace WeaponGenerator
 		/// </summary>
 		protected TimeSpan _reloadTime;
 		/// <summary>
-		/// How much variation in the time to reload, to be used to make a quicker or slower reload based on chance
+		/// The amount of time it takes to go from hip-fire to ADS
 		/// </summary>
-		protected ushort _reloadTimeVariance;
+		protected TimeSpan _drawSpeed;
+		/// <summary>
+		/// The minimum TimeSpan between two rounds being fired
+		/// </summary>
+		protected TimeSpan _fireRate;
 		/// <summary>
 		/// Whether two of this weapon can be held and fired simultaneously
 		/// </summary>
@@ -40,15 +45,9 @@ namespace WeaponGenerator
 		/// Whether this weapon has to be held by both hands, probably mutually exclusive to _canDualWield
 		/// </summary>
 		protected bool _isTwoHanded;
-		/// <summary>
-		/// The amount of time it takes to go from hip-fire to ADS
-		/// </summary>
-		protected TimeSpan _drawSpeed;
-		/// <summary>
-		/// The minimum TimeSpan between two rounds being fired
-		/// </summary>
-		protected TimeSpan _fireRate;
+		#endregion
 
+		#region Properties for protected vars
 		/// <summary>
 		/// The enum value of WeaponType the derived class represents
 		/// </summary>
@@ -125,16 +124,6 @@ namespace WeaponGenerator
 		public ushort ClipSize { get { return _clipSize; } }
 
 		/// <summary>
-		/// The minimum spread pattern the fired projectile will follow
-		/// </summary>
-		public float MinimumSpread { get => throw new NotImplementedException(); }
-
-		/// <summary>
-		/// The maximum spread pattern the fired projectile will folow
-		/// </summary>
-		public float MaximumSpread { get => throw new NotImplementedException(); }
-
-		/// <summary>
 		/// The distance the firearm will shoot a projectile and have full effectiveness
 		/// </summary>
 		public ushort EffectiveRange { get { return _effectiveRange; } }
@@ -168,6 +157,44 @@ namespace WeaponGenerator
 		/// The minimum TimeSpan between two rounds being fired
 		/// </summary>
 		public TimeSpan FireRate { get { return _fireRate; } }
+		#endregion
+
+		#region Rank percents
+		/// <summary>
+		/// The closer _clipSize is to UpperClipLimit, the higher it's rank
+		/// </summary>
+		public float ClipSizeRank { get { return ((_clipSize - LowerClipLimit) / (UpperClipLimit - LowerClipLimit)); } }
+
+		/// <summary>
+		/// The closer _effectiveRange is to UpperEffectiveRangeLimit, the higher it's rank
+		/// </summary>
+		public float EffectiveRangeRank { get { return ((_effectiveRange - LowerEffectiveRangeLimit) / (UpperEffectiveRangeLimit - LowerEffectiveRangeLimit)); } }
+
+		/// <summary>
+		/// The closer _absMaxRange is to (_effectiveRange * 2), the higher it's rank
+		/// </summary>
+		public float AbsoluteMaxRangeRank { get { return ((_absMaxRange - LowerEffectiveRangeLimit) / ((_effectiveRange * 2) - LowerEffectiveRangeLimit)); } } // I don't know if this is going to calculate the way I want it to
+		
+		/// <summary>
+		/// The closer _weight is to LowerWeightLimit, the higher it's rank
+		/// </summary>
+		public float WeightRank { get { return (1 - ((_weight - LowerWeightLimit) / (UpperWeightLimit - LowerWeightLimit))); } } 
+
+		/// <summary>
+		/// The closer _reloadTime.Milliseconds is to LowerReloadTimeLimit, the higher it's rank
+		/// </summary>
+		public float ReloadTimeRank { get { return (1 - ((_reloadTime.Milliseconds - LowerReloadTimeLimit) / (UpperReloadTimeLimit - LowerReloadTimeLimit))); } }
+
+		/// <summary>
+		/// The closer _drawSpeed.Milliseconds is to LowerDrawSpeedLimit, the higher it's rank
+		/// </summary>
+		public float DrawSpeedRank { get { return (1 - ((_drawSpeed.Milliseconds - LowerDrawSpeedLimit) / (UpperDrawSpeedLimit - LowerDrawSpeedLimit))); } }
+
+		/// <summary>
+		/// The closer _fireRate.Milliseconds is to LowerFireRateLimit, the higher it's rank
+		/// </summary>
+		public float FireRateRank { get { return (1 - ((_fireRate.Milliseconds - LowerFireRateLimit) / (UpperFireRateLimit - LowerFireRateLimit))); } }
+		#endregion
 
 		/// <summary>
 		/// Randomize all stats that need to be randomized based on the values setup by the derived class
