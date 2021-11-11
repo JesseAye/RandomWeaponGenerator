@@ -53,9 +53,31 @@ namespace WeaponGenerator.Tests
 		public void CheckValidClipSize()
 		{
 			WeaponGenerator weaponGen = new();
+
+			Weapon[] weapons = new Weapon[IterationsToTest];
+			weapons = weaponGen.GenerateRandomWeapon(IterationsToTest);
+
+			foreach (WeaponType type in Enum.GetValues(typeof(WeaponType)))
+			{
+				Weapon[] testweapons = weapons.Where(weapon => weapon.WeaponType == type).ToArray();
+
+				foreach (Weapon weapon in testweapons)
+				{
+					Assert.IsTrue((weapon.ClipSize >= weapon.LowerClipLimit) && (weapon.ClipSize <= weapon.UpperClipLimit));
+				}
+			}
+
+			/*
+			 * 
 			weaponGen.AllWeaponsEqualChance(0);
 
 			weaponGen.SetChance(WeaponType.Revolver, 1);
+
+			for (int i = 0; i < IterationsToTest; i++)
+			{
+				Weapon weapon = weaponGen.GenerateRandomWeapon();
+				Assert.IsTrue(weapon.ClipSize >= weapon.LowerClipLimit && weapon.ClipSize <= weapon.UpperClipLimit);
+			}
 
 			for (int i = 0; i < IterationsToTest; i++)
 			{
@@ -163,6 +185,8 @@ namespace WeaponGenerator.Tests
 
 				Assert.IsTrue(clip >= 15 && clip <= 30);
 			}
+			*
+			*/
 		}
 
 		/// <summary>
