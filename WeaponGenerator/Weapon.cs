@@ -12,16 +12,6 @@ namespace WeaponGenerator
 		/// How many rounds a single clip will hold
 		/// </summary>
 		protected ushort _clipSize;
-
-		//https://borderlands.fandom.com/wiki/Accuracy_(weapon)
-		/// <summary>
-		/// The minimum spread of the round fired
-		/// </summary>
-		protected float _minimumSpread;
-		/// <summary>
-		/// The maximum spread of the round fired
-		/// </summary>
-		protected float _maximumSpread;
 		/// <summary>
 		/// The maximum range a fired round will deliver full effect
 		/// </summary>
@@ -248,7 +238,7 @@ namespace WeaponGenerator
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort UpperReloadTimeLimit { get { return 10000; } }
+		public override ushort UpperReloadTimeLimit { get { return 12000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
@@ -310,12 +300,12 @@ namespace WeaponGenerator
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort LowerEffectiveRangeLimit { get { return 10; } }
+		public override ushort LowerEffectiveRangeLimit { get { return 30; } }
 
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort UpperEffectiveRangeLimit { get { return 50; } }
+		public override ushort UpperEffectiveRangeLimit { get { return 75; } }
 
 		/// <summary>
 		/// <inheritdoc/>
@@ -330,12 +320,12 @@ namespace WeaponGenerator
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort LowerReloadTimeLimit { get { return 6000; } }
+		public override ushort LowerReloadTimeLimit { get { return 3000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort UpperReloadTimeLimit { get { return 15000; } }
+		public override ushort UpperReloadTimeLimit { get { return 7000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
@@ -375,7 +365,6 @@ namespace WeaponGenerator
 	/// </summary>
 	public abstract class Rifle : Weapon
 	{
-
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
@@ -407,8 +396,11 @@ namespace WeaponGenerator
 		public override bool IsTwoHanded { get { return true; } }
 	}
 
+	// Mosin reload speed single vs stripper clip: https://www.youtube.com/watch?v=NF7AvZnTQYQ
+	// single = 17.5 seconds
+	// stripper = 5.0 seconds
 	/// <summary>
-	/// Represents a Bolt Action Rifle
+	/// Represents a Bolt Action Rifle, modeled after a Mosin-Nagant
 	/// </summary>
 	public class BoltActionRifle : Rifle
 	{
@@ -434,22 +426,32 @@ namespace WeaponGenerator
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
+		public override ushort LowerEffectiveRangeLimit { get { return 400; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public override ushort UpperEffectiveRangeLimit { get { return 1000; } }
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
 		public override ushort LowerWeightLimit { get { return 3000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort UpperWeightLimit { get { return 8000; } }
+		public override ushort UpperWeightLimit { get { return 6000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort LowerReloadTimeLimit { get { return 3000; } }
+		public override ushort LowerReloadTimeLimit { get { return 12000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
 		/// </summary>
-		public override ushort UpperReloadTimeLimit { get { return 8000; } }
+		public override ushort UpperReloadTimeLimit { get { return 20000; } }
 
 		/// <summary>
 		/// <inheritdoc/>
