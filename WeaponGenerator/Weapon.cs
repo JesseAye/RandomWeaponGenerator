@@ -262,7 +262,7 @@ namespace WeaponGenerator
 				decimal value = numerator / denominator;
 				return Math.Round(value, 3);
 			}
-		}
+		} //TODO: Not outputting expected values
 
 		/// <summary>
 		/// The closer _weight is to LowerWeightLimit, the higher it's rank

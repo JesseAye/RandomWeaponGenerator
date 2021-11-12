@@ -1,7 +1,7 @@
 ﻿
 namespace FormForWeaponGenerator
 {
-	partial class Form1
+	partial class RandomlyGeneratedWeapons
 	{
 		/// <summary>
 		///  Required designer variable.
@@ -43,14 +43,14 @@ namespace FormForWeaponGenerator
 			this.dgvWeapons.Size = new System.Drawing.Size(1717, 687);
 			this.dgvWeapons.TabIndex = 0;
 			// 
-			// Form1
+			// RandomlyGeneratedWeapons
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1741, 711);
 			this.Controls.Add(this.dgvWeapons);
-			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Name = "RandomlyGeneratedWeapons";
+			this.Text = "Randomly Generated Weapons";
 			((System.ComponentModel.ISupportInitialize)(this.dgvWeapons)).EndInit();
 			this.ResumeLayout(false);
 

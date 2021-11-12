@@ -5,12 +5,12 @@ using WeaponGenerator;
 
 namespace FormForWeaponGenerator
 {
-	public partial class Form1 : Form
+	public partial class RandomlyGeneratedWeapons : Form
 	{
 		private Weapon[] weapons;
-		private ushort NumberOfWeaponsToGenerate = 1000;
+		private ushort NumberOfWeaponsToGenerate = 10000;
 		DataTable weaponTable;
-		public Form1()
+		public RandomlyGeneratedWeapons()
 		{
 			InitializeComponent();
 			WeaponGenerator.WeaponGenerator weaponGen = new();
