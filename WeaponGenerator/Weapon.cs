@@ -212,7 +212,11 @@ namespace WeaponGenerator
 		{
 			get
 			{
-				return (ushort)((float)(1000 / ((_fireRate.Seconds * 1000) + (_fireRate.Milliseconds))) * 60); //TODO: This gets truncated, fix it so it rounds. Also, only outputs ushort in increments of 60
+				int ms = (_fireRate.Seconds * 1000) + _fireRate.Milliseconds;
+				decimal a = Math.Round(((decimal)1000 / ms), 2);
+				ushort value = (ushort)Math.Round(a * 60, 0);
+
+				return Convert.ToUInt16(value);
 			}
 		}
 		#endregion
@@ -221,37 +225,100 @@ namespace WeaponGenerator
 		/// <summary>
 		/// The closer _clipSize is to UpperClipLimit, the higher it's rank
 		/// </summary>
-		public float ClipSizeRank { get { return ((_clipSize - LowerClipLimit) / (UpperClipLimit - LowerClipLimit)); } }
+		public decimal ClipSizeRank
+		{
+			get
+			{
+				decimal numerator = _clipSize - LowerClipLimit;
+				decimal denominator = UpperClipLimit - LowerClipLimit;
+				decimal value = numerator / denominator;
+				return Math.Round(value, 3);
+			}
+		}
 
 		/// <summary>
 		/// The closer _effectiveRange is to UpperEffectiveRangeLimit, the higher it's rank
 		/// </summary>
-		public float EffectiveRangeRank { get { return ((_effectiveRange - LowerEffectiveRangeLimit) / (UpperEffectiveRangeLimit - LowerEffectiveRangeLimit)); } }
+		public decimal EffectiveRangeRank
+		{
+			get
+			{
+				decimal numerator = _effectiveRange - LowerEffectiveRangeLimit;
+				decimal denominator = UpperEffectiveRangeLimit - LowerEffectiveRangeLimit;
+				decimal value = numerator / denominator;
+				return Math.Round(value, 3);
+			}
+		}
 
 		/// <summary>
 		/// The closer _absMaxRange is to (_effectiveRange * 2), the higher it's rank
 		/// </summary>
-		public float AbsoluteMaxRangeRank { get { return ((_absMaxRange - LowerEffectiveRangeLimit) / ((_effectiveRange * 2) - LowerEffectiveRangeLimit)); } } // I don't know if this is going to calculate the way I want it to
-		
+		public decimal AbsoluteMaxRangeRank
+		{
+			get
+			{
+				decimal numerator = _absMaxRange - LowerEffectiveRangeLimit;
+				decimal denominator = (_effectiveRange * 2) - LowerEffectiveRangeLimit; // I don't know if this is going to calculate the way I want it to
+				decimal value = numerator / denominator;
+				return Math.Round(value, 3);
+			}
+		}
+
 		/// <summary>
 		/// The closer _weight is to LowerWeightLimit, the higher it's rank
 		/// </summary>
-		public float WeightRank { get { return (1 - ((_weight - LowerWeightLimit) / (UpperWeightLimit - LowerWeightLimit))); } } 
+		public decimal WeightRank
+		{
+			get
+			{
+				decimal numerator = _weight - LowerWeightLimit;
+				decimal denominator = UpperWeightLimit - LowerWeightLimit;
+				decimal value = numerator / denominator;
+				return 1 - Math.Round(value, 3);
+			}
+		}
 
 		/// <summary>
 		/// The closer _reloadTime.Milliseconds is to LowerReloadTimeLimit, the higher it's rank
 		/// </summary>
-		public float ReloadTimeRank { get { return (1 - ((_reloadTime.Milliseconds - LowerReloadTimeLimit) / (UpperReloadTimeLimit - LowerReloadTimeLimit))); } }
+		public decimal ReloadTimeRank
+		{
+			get
+			{
+				decimal numerator = ((_reloadTime.Seconds * 1000) + _reloadTime.Milliseconds) - LowerReloadTimeLimit;
+				decimal denominator = UpperReloadTimeLimit - LowerReloadTimeLimit;
+				decimal value = numerator / denominator;
+				return 1 - Math.Round(value, 3);
+			}
+		}
 
 		/// <summary>
 		/// The closer _drawSpeed.Milliseconds is to LowerDrawSpeedLimit, the higher it's rank
 		/// </summary>
-		public float DrawSpeedRank { get { return (1 - ((_drawSpeed.Milliseconds - LowerDrawSpeedLimit) / (UpperDrawSpeedLimit - LowerDrawSpeedLimit))); } }
+		public decimal DrawSpeedRank
+		{
+			get
+			{
+				decimal numerator = ((_drawSpeed.Seconds * 1000) + _drawSpeed.Milliseconds) - LowerDrawSpeedLimit;
+				decimal denominator = UpperDrawSpeedLimit - LowerDrawSpeedLimit;
+				decimal value = numerator / denominator;
+				return 1 - Math.Round(value, 3);
+			}
+		}
 
 		/// <summary>
 		/// The closer _fireRate.Milliseconds is to LowerFireRateLimit, the higher it's rank
 		/// </summary>
-		public float FireRateRank { get { return (1 - ((_fireRate.Milliseconds - LowerFireRateLimit) / (UpperFireRateLimit - LowerFireRateLimit))); } }
+		public decimal FireRateRank
+		{
+			get
+			{
+				decimal numerator = ((_fireRate.Seconds * 1000) + _fireRate.Milliseconds) - LowerFireRateLimit;
+				decimal denominator = UpperFireRateLimit - LowerFireRateLimit;
+				decimal value = numerator / denominator;
+				return 1 - Math.Round(value, 3);
+			}
+		}
 		#endregion
 
 		/// <summary>
@@ -259,13 +326,13 @@ namespace WeaponGenerator
 		/// </summary>
 		public Weapon()
 		{
-			_clipSize = RandomExtension.NormalDistribution(LowerClipLimit, UpperClipLimit, .5f, 3);
-			_effectiveRange = RandomExtension.NormalDistribution(LowerEffectiveRangeLimit, UpperEffectiveRangeLimit, .5f, 3);
-			_absMaxRange = (ushort)(_effectiveRange * RandomExtension.NormalDistribution_f(1, 2, 1.25f, .5f)); //Not sure I like this explicit cast from float to ushort
-			_weight = RandomExtension.NormalDistribution(LowerWeightLimit, UpperWeightLimit, 1.5f, 3);
-			_reloadTime = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerReloadTimeLimit, UpperReloadTimeLimit, 1.5f, 3));
-			_fireRate = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerFireRateLimit, UpperFireRateLimit, 1.5f, 3));
-			_drawSpeed = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerDrawSpeedLimit, UpperDrawSpeedLimit, 1.5f, 3));
+			_clipSize = RandomExtension.NormalDistribution(LowerClipLimit, UpperClipLimit, 1, 3);
+			_effectiveRange = RandomExtension.NormalDistribution(LowerEffectiveRangeLimit, UpperEffectiveRangeLimit, 1, 3);
+			_absMaxRange = (ushort)(_effectiveRange * RandomExtension.NormalDistribution_f(1, 2, 1, .5f)); //Not sure I like this explicit cast from float to ushort
+			_weight = RandomExtension.NormalDistribution(LowerWeightLimit, UpperWeightLimit, 1, 3);
+			_reloadTime = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerReloadTimeLimit, UpperReloadTimeLimit, 1, 3));
+			_fireRate = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerFireRateLimit, UpperFireRateLimit, 1, 3));
+			_drawSpeed = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerDrawSpeedLimit, UpperDrawSpeedLimit, 1, 3));
 		}
 	}
 

@@ -27,6 +27,13 @@ namespace FormForWeaponGenerator
 			weaponTable.Columns.Add("Fire Rate", typeof(string));
 			weaponTable.Columns.Add("Cyclic Rate", typeof(string));
 			weaponTable.Columns.Add("Can Dual Wield", typeof(bool));
+			weaponTable.Columns.Add("Clip Size Rank", typeof(string));
+			weaponTable.Columns.Add("Effective Range Rank", typeof(string));
+			weaponTable.Columns.Add("Absolute Max Range Rank", typeof(string));
+			weaponTable.Columns.Add("Weight Rank", typeof(string));
+			weaponTable.Columns.Add("Reload Time Rank", typeof(string));
+			weaponTable.Columns.Add("Draw Speed Rank", typeof(string));
+			weaponTable.Columns.Add("Fire Rate Rank", typeof(string));
 
 			foreach (Weapon weapon in weapons)
 			{
@@ -41,6 +48,13 @@ namespace FormForWeaponGenerator
 				dr["Fire Rate"] = weapon.FireRateSecondsMS;
 				dr["Cyclic Rate"] = weapon.CyclicRate + " RPM";
 				dr["Can Dual Wield"] = weapon.CanDualWield;
+				dr["Clip Size Rank"] = Math.Round((weapon.ClipSizeRank * 100), 1) + "%";
+				dr["Effective Range Rank"] = Math.Round((weapon.EffectiveRangeRank * 100), 1) + "%";
+				dr["Absolute Max Range Rank"] = Math.Round((weapon.AbsoluteMaxRangeRank * 100), 1) + "%";
+				dr["Weight Rank"] = Math.Round((weapon.WeightRank * 100), 1) + "%";
+				dr["Reload Time Rank"] = Math.Round((weapon.ReloadTimeRank * 100), 1) + "%";
+				dr["Draw Speed Rank"] = Math.Round((weapon.DrawSpeedRank * 100), 1) + "%";
+				dr["Fire Rate Rank"] = Math.Round((weapon.FireRateRank * 100), 1) + "%";
 
 				weaponTable.Rows.Add(dr);
 			}
