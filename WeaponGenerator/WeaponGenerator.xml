@@ -15,16 +15,6 @@
             How many rounds a single clip will hold
             </summary>
         </member>
-        <member name="F:WeaponGenerator.Weapon._minimumSpread">
-            <summary>
-            The minimum spread of the round fired
-            </summary>
-        </member>
-        <member name="F:WeaponGenerator.Weapon._maximumSpread">
-            <summary>
-            The maximum spread of the round fired
-            </summary>
-        </member>
         <member name="F:WeaponGenerator.Weapon._effectiveRange">
             <summary>
             The maximum range a fired round will deliver full effect
@@ -45,9 +35,14 @@
             The averaged TimeSpan it takes to reload a weapon, to be affected by _reloadTimeVariance
             </summary>
         </member>
-        <member name="F:WeaponGenerator.Weapon._reloadTimeVariance">
+        <member name="F:WeaponGenerator.Weapon._drawSpeed">
             <summary>
-            How much variation in the time to reload, to be used to make a quicker or slower reload based on chance
+            The amount of time it takes to go from hip-fire to ADS
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._fireRate">
+            <summary>
+            The minimum TimeSpan between two rounds being fired
             </summary>
         </member>
         <member name="F:WeaponGenerator.Weapon._canDualWield">
@@ -58,16 +53,6 @@
         <member name="F:WeaponGenerator.Weapon._isTwoHanded">
             <summary>
             Whether this weapon has to be held by both hands, probably mutually exclusive to _canDualWield
-            </summary>
-        </member>
-        <member name="F:WeaponGenerator.Weapon._drawSpeed">
-            <summary>
-            The amount of time it takes to go from hip-fire to ADS
-            </summary>
-        </member>
-        <member name="F:WeaponGenerator.Weapon._fireRate">
-            <summary>
-            The minimum TimeSpan between two rounds being fired
             </summary>
         </member>
         <member name="P:WeaponGenerator.Weapon.WeaponType">
@@ -145,19 +130,14 @@
             The amount of rounds in each clip
             </summary>
         </member>
-        <member name="P:WeaponGenerator.Weapon.MinimumSpread">
-            <summary>
-            The minimum spread pattern the fired projectile will follow
-            </summary>
-        </member>
-        <member name="P:WeaponGenerator.Weapon.MaximumSpread">
-            <summary>
-            The maximum spread pattern the fired projectile will folow
-            </summary>
-        </member>
         <member name="P:WeaponGenerator.Weapon.EffectiveRange">
             <summary>
             The distance the firearm will shoot a projectile and have full effectiveness
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.AbsoluteMaxRange">
+            <summary>
+            The furthest distance this firearm will shoot a projectile and before it has negligible effect
             </summary>
         </member>
         <member name="P:WeaponGenerator.Weapon.Weight">
@@ -168,6 +148,11 @@
         <member name="P:WeaponGenerator.Weapon.ReloadTime">
             <summary>
             The amount of time it takes to reload the firearm
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTimeSecondsMS">
+            <summary>
+            The string version of time it takes to reload the firearm, e.g. "14.955 Seconds"
             </summary>
         </member>
         <member name="P:WeaponGenerator.Weapon.CanDualWield">
@@ -185,9 +170,59 @@
             The amount of time it takes to go from hip-fire to ADS
             </summary>
         </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeedSecondsMS">
+            <summary>
+            The string version of time it takes to go from hip-fire to ADS, e.g. "1.209 Seconds", "368 Milliseconds"
+            </summary>
+        </member>
         <member name="P:WeaponGenerator.Weapon.FireRate">
             <summary>
             The minimum TimeSpan between two rounds being fired
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRateSecondsMS">
+            <summary>
+            The string version of minimum TimeSpan between two rounds being fired, e.g. "1.356 Seconds", "743 Milliseconds"
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.CyclicRate">
+            <summary>
+            The Rounds Per Minute calculated from _fireRate
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ClipSizeRank">
+            <summary>
+            The closer _clipSize is to UpperClipLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.EffectiveRangeRank">
+            <summary>
+            The closer _effectiveRange is to UpperEffectiveRangeLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.AbsoluteMaxRangeRank">
+            <summary>
+            The closer _absMaxRange is to (_effectiveRange * 2), the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.WeightRank">
+            <summary>
+            The closer _weight is to LowerWeightLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTimeRank">
+            <summary>
+            The closer _reloadTime.Milliseconds is to LowerReloadTimeLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeedRank">
+            <summary>
+            The closer _drawSpeed.Milliseconds is to LowerDrawSpeedLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRateRank">
+            <summary>
+            The closer _fireRate.Milliseconds is to LowerFireRateLimit, the higher it's rank
             </summary>
         </member>
         <member name="M:WeaponGenerator.Weapon.#ctor">
@@ -402,7 +437,7 @@
         </member>
         <member name="T:WeaponGenerator.BoltActionRifle">
             <summary>
-            Represents a Bolt Action Rifle
+            Represents a Bolt Action Rifle, modeled after a Mosin-Nagant
             </summary>
         </member>
         <member name="P:WeaponGenerator.BoltActionRifle.WeaponType">
@@ -421,6 +456,16 @@
             </summary>
         </member>
         <member name="P:WeaponGenerator.BoltActionRifle.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperEffectiveRangeLimit">
             <summary>
             <inheritdoc/>
             </summary>

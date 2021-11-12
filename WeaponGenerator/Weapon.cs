@@ -129,6 +129,11 @@ namespace WeaponGenerator
 		public ushort EffectiveRange { get { return _effectiveRange; } }
 
 		/// <summary>
+		/// The furthest distance this firearm will shoot a projectile and before it has negligible effect
+		/// </summary>
+		public ushort AbsoluteMaxRange { get { return _absMaxRange; } }
+
+		/// <summary>
 		/// The weight of the firearm
 		/// </summary>
 		public ushort Weight { get { return _weight; } }
@@ -137,6 +142,11 @@ namespace WeaponGenerator
 		/// The amount of time it takes to reload the firearm
 		/// </summary>
 		public TimeSpan ReloadTime { get { return _reloadTime; } }
+
+		/// <summary>
+		/// The string version of time it takes to reload the firearm, e.g. "14.955 Seconds"
+		/// </summary>
+		public string ReloadTimeSecondsMS { get { return _reloadTime.ToString("%s'.'fff") + " Seconds"; } }
 
 		/// <summary>
 		/// Whether this firearm can be dual wielded
@@ -154,9 +164,57 @@ namespace WeaponGenerator
 		public TimeSpan DrawSpeed { get { return _drawSpeed; } }
 
 		/// <summary>
+		/// The string version of time it takes to go from hip-fire to ADS, e.g. "1.209 Seconds", "368 Milliseconds"
+		/// </summary>
+		public string DrawSpeedSecondsMS
+		{
+			get
+			{
+				if (_drawSpeed.Seconds > 0)
+				{
+					return _drawSpeed.ToString("%s'.'fff") + " Seconds";
+				}
+
+				else
+				{
+					return _drawSpeed.ToString("fff") + " Milliseconds";
+				}
+			} }
+
+		/// <summary>
 		/// The minimum TimeSpan between two rounds being fired
 		/// </summary>
 		public TimeSpan FireRate { get { return _fireRate; } }
+
+		/// <summary>
+		/// The string version of minimum TimeSpan between two rounds being fired, e.g. "1.356 Seconds", "743 Milliseconds"
+		/// </summary>
+		public string FireRateSecondsMS
+		{
+			get
+			{
+				if (_fireRate.Seconds > 0)
+				{
+					return _fireRate.ToString("%s'.'fff") + " Seconds";
+				}
+
+				else
+				{
+					return _fireRate.ToString("fff") + " Milliseconds";
+				}
+			}
+		}
+
+		/// <summary>
+		/// The Rounds Per Minute calculated from _fireRate
+		/// </summary>
+		public ushort CyclicRate
+		{
+			get
+			{
+				return (ushort)((float)(1000 / ((_fireRate.Seconds * 1000) + (_fireRate.Milliseconds))) * 60); //TODO: This gets truncated, fix it so it rounds. Also, only outputs ushort in increments of 60
+			}
+		}
 		#endregion
 
 		#region Rank percents
