@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WeaponGenerator\WeaponGeneratorDLL.csproj" />
+    <ProjectReference Include="..\WeaponGenerator\WeaponGeneratorDLLCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

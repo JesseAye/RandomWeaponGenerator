@@ -1,0 +1,1249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeaponGenerator</name>
+    </assembly>
+    <members>
+        <member name="T:WeaponGenerator.Weapon">
+            <inheritdoc/>
+            <summary>
+            An inheritable base class for all weapons
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._clipSize">
+            <summary>
+            How many rounds a single clip will hold
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._effectiveRange">
+            <summary>
+            The maximum range a fired round will deliver full effect
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._absMaxRange">
+            <summary>
+            The maximum range a fired round will deliver negligible, if not zero, effect
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._weight">
+            <summary>
+            The weight of the weapon
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._reloadTime">
+            <summary>
+            The averaged TimeSpan it takes to reload a weapon, to be affected by _reloadTimeVariance
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._drawSpeed">
+            <summary>
+            The amount of time it takes to go from hip-fire to ADS
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._fireRate">
+            <summary>
+            The minimum TimeSpan between two rounds being fired
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._canDualWield">
+            <summary>
+            Whether two of this weapon can be held and fired simultaneously
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.Weapon._isTwoHanded">
+            <summary>
+            Whether this weapon has to be held by both hands, probably mutually exclusive to _canDualWield
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.WeaponType">
+            <summary>
+            The enum value of WeaponType the derived class represents
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerClipLimit">
+            <summary>
+            The lowest value _clipSize can have
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperClipLimit">
+            <summary>
+            The highest value _clipSize can have
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerEffectiveRangeLimit">
+            <summary>
+            The lowest value _effectiveRange can have, should be represented as meters
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperEffectiveRangeLimit">
+            <summary>
+            The highest value _effectiveRange can have, should be represented as meters
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerWeightLimit">
+            <summary>
+            The lowest value _weight can have, should be represented as grams
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperWeightLimit">
+            <summary>
+            The highest value _weight can have, should be represented as grams
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerReloadTimeLimit">
+            <summary>
+            The lowest value _reloadTime can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperReloadTimeLimit">
+            <summary>
+            The highest value _reloadTime can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerFireRateLimit">
+            <summary>
+            The lowest value _fireRate can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperFireRateLimit">
+            <summary>
+            The highest value _fireRate can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.LowerDrawSpeedLimit">
+            <summary>
+            The lowest value _drawSpeed can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.UpperDrawSpeedLimit">
+            <summary>
+            The highest value _drawSpeed can have, should be represented as milliseconds
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.WeaponName">
+            <summary>
+            This weapon's normal name
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ClipSize">
+            <summary>
+            The amount of rounds in each clip
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.EffectiveRange">
+            <summary>
+            The distance the firearm will shoot a projectile and have full effectiveness
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.AbsoluteMaxRange">
+            <summary>
+            The furthest distance this firearm will shoot a projectile and before it has negligible effect
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.Weight">
+            <summary>
+            The weight of the firearm
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTime">
+            <summary>
+            The amount of time it takes to reload the firearm
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTimeSecondsMS">
+            <summary>
+            The string version of time it takes to reload the firearm, e.g. "14.955 Seconds"
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.CanDualWield">
+            <summary>
+            Whether this firearm can be dual wielded
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.IsTwoHanded">
+            <summary>
+            Whether this firearm requires being held by two hands
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeed">
+            <summary>
+            The amount of time it takes to go from hip-fire to ADS
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeedSecondsMS">
+            <summary>
+            The string version of time it takes to go from hip-fire to ADS, e.g. "1.209 Seconds", "368 Milliseconds"
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRate">
+            <summary>
+            The minimum TimeSpan between two rounds being fired
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRateSecondsMS">
+            <summary>
+            The string version of minimum TimeSpan between two rounds being fired, e.g. "1.356 Seconds", "743 Milliseconds"
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.CyclicRate">
+            <summary>
+            The Rounds Per Minute calculated from _fireRate
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ClipSizeRank">
+            <summary>
+            The closer _clipSize is to UpperClipLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.EffectiveRangeRank">
+            <summary>
+            The closer _effectiveRange is to UpperEffectiveRangeLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.AbsoluteMaxRangeRank">
+            <summary>
+            The closer _absMaxRange is to (_effectiveRange * 2), the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.WeightRank">
+            <summary>
+            The closer _weight is to LowerWeightLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.ReloadTimeRank">
+            <summary>
+            The closer _reloadTime.Milliseconds is to LowerReloadTimeLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.DrawSpeedRank">
+            <summary>
+            The closer _drawSpeed.Milliseconds is to LowerDrawSpeedLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Weapon.FireRateRank">
+            <summary>
+            The closer _fireRate.Milliseconds is to LowerFireRateLimit, the higher it's rank
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.Weapon.#ctor">
+            <summary>
+            Randomize all stats that need to be randomized based on the values setup by the derived class
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Revolver">
+            <summary>
+            A class for Revolver type weapons
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Revolver.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Handgun">
+            <summary>
+            A class for Handgun type weapons
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Handgun.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Rifle">
+            <summary>
+            An inheritable base class for Rifle type weapons
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Rifle.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.BoltActionRifle">
+            <summary>
+            Represents a Bolt Action Rifle, modeled after a Mosin-Nagant
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BoltActionRifle.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SemiautomaticRifle">
+            <summary>
+            Represents a Semiautomatic Rifle
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticRifle.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Shotgun">
+            <summary>
+            An inheritable base class for Shotgun type weapons
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Shotgun.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Shotgun.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Shotgun.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Shotgun.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.BreakActionShotgun">
+            <summary>
+            Represents a Break Action Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.BreakActionShotgun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.PumpActionShotgun">
+            <summary>
+            Represents a Pump Action Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.PumpActionShotgun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SemiautomaticShotgun">
+            <summary>
+            Represents a Semiautomatic Shotgun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SemiautomaticShotgun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.Automatics">
+            <summary>
+            An inheritable base class for Automatic type weapons
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Automatics.CanDualWield">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.Automatics.IsTwoHanded">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.SubmachineGun">
+            <summary>
+            Represents a Submachine Gun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.SubmachineGun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.HeavyMachineGun">
+            <summary>
+            Represents a Heavy Machine Gun
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.HeavyMachineGun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.LightMachineGun">
+            <summary>
+            Represents a Light Machine Gun, modeled after M249
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.LightMachineGun.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.AssaultRifle">
+            <summary>
+            Represents an Assault Rifle, modeled after AK-47
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.WeaponType">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.WeaponName">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperClipLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperEffectiveRangeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperWeightLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperReloadTimeLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperFireRateLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.LowerDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.AssaultRifle.UpperDrawSpeedLimit">
+            <summary>
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.WeaponType">
+            <summary>
+            Represents the different available weapon types able to be generated
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.Revolver">
+            <summary>
+            A revolver
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.Handgun">
+            <summary>
+            A full sized semiautomatic handgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.BoltActionRifle">
+            <summary>
+            A bolt action rifle
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SemiautomaticRifle">
+            <summary>
+            A semiautomatic rifle
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.BreakActionShotgun">
+            <summary>
+            A break action shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.PumpActionShotgun">
+            <summary>
+            A pump action shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SemiautomaticShotgun">
+            <summary>
+            A semiautomatic shotgun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.SubmachineGun">
+            <summary>
+            A submachine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.HeavyMachineGun">
+            <summary>
+            A heavy machine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.LightMachineGun">
+            <summary>
+            A light machine gun
+            </summary>
+        </member>
+        <member name="F:WeaponGenerator.WeaponType.AssaultRifle">
+            <summary>
+            An assault rifle
+            </summary>
+        </member>
+        <member name="T:WeaponGenerator.WeaponGenerator">
+            <summary>
+            Generates different types of weapons randomly with random stats
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.Chance">
+            <summary>
+            The Dictionary of chances for each WeaponType to spawn
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.SetChance(WeaponGenerator.WeaponType,System.UInt16)">
+            <summary>
+            Set the chance to spawn value of a particular WeaponType
+            </summary>
+            <param name="weaponType">The WeaponType to chance spawn chance</param>
+            <param name="chance">The chance to spawn it</param>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.FlattenChanceToArray">
+            <summary>
+            Converts _chance into a flat array
+            </summary>
+            <returns>An array of WeaponType</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.#ctor">
+            <summary>
+            Setup WeaponGenerator class, and add each WeaponType value to the variable Chance, all with a default value of 1
+            </summary>
+        </member>
+        <member name="P:WeaponGenerator.WeaponGenerator.TotalChance">
+            <summary>
+            Sum of all weapon generation chances
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.AllWeaponsEqualChance(System.UInt16)">
+            <summary>
+            Set all weapon types to an equal chance to generate
+            </summary>
+            <param name="value">The ushort to apply to all weapon type chances</param>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GenerateRandomWeapon">
+            <summary>
+            Generate a random object with a base type of Weapon
+            </summary>
+            <returns>Instance of any of the weapons</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GenerateRandomWeapon(System.Int32)">
+            <summary>
+            Generate multiple objects with a base type of Weapon
+            </summary>
+            <param name="Amount">The amount of weapons to generate</param>
+            <returns>Array of instances of any of the weapon</returns>
+        </member>
+        <member name="M:WeaponGenerator.WeaponGenerator.GetWeapon(WeaponGenerator.WeaponType)">
+            <summary>
+            Convert the WeaponType into the actual type it represents
+            </summary>
+            <param name="weaponType">WeaponType to create</param>
+            <seealso href="https://stackoverflow.com/questions/25640344/how-to-dynamically-create-an-object-based-on-the-name-of-the-enum-without-switc/25640465">Thanks MatteoSp!</seealso>
+            <returns>An instance of the WeaponType</returns>
+        </member>
+        <member name="T:WeaponGenerator.RandomExtension">
+            <summary>
+            Extends functionality of Random class
+            </summary>
+        </member>
+        <member name="M:WeaponGenerator.RandomExtension.NormalDistribution(System.UInt16,System.UInt16,System.Single,System.Single)">
+            <summary>
+            Produce a random number based on a normal distribution, otherwise called Gaussian distribution.
+            </summary>
+            <param name="LeftTail">The floor of the number to be generated</param>
+            <param name="RightTail">The ceiling of the number to be generated</param>
+            <param name="ModifyMeanPercent">Shift the curve of distribution (Mean * ModifyMeanPercent)</param>
+            <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
+            <returns></returns>
+        </member>
+        <member name="M:WeaponGenerator.RandomExtension.NormalDistribution_f(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Produce a random number based on a normal distribution, otherwise called Gaussian distribution.
+            </summary>
+            <param name="LeftTail">The floor of the number to be generated</param>
+            <param name="RightTail">The ceiling of the number to be generated</param>
+            <param name="ModifyMeanPercent">Shift the curve of distribution (Mean * ModifyMeanPercent)</param>
+            <param name="StandardDeviations">The amount of Standard Deviations to determine the width and probability of the curve</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomWeaponGeneratorTests", "RandomWeaponGeneratorTests\RandomWeaponGeneratorTests.csproj", "{FE9DCE4A-FA4D-49BB-BF25-47F799090200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponGeneratorDLL", "WeaponGenerator\WeaponGeneratorDLL.csproj", "{0B777053-1627-48CA-BE00-E73D61080388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeaponGeneratorDLLCore", "WeaponGenerator\WeaponGeneratorDLLCore.csproj", "{0B777053-1627-48CA-BE00-E73D61080388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormForWeaponGenerator", "FormForWeaponGenerator\FormForWeaponGenerator.csproj", "{A0AE0BEB-442B-463D-995F-1AEEACE32BD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormForWeaponGenerator", "FormForWeaponGenerator\FormForWeaponGenerator.csproj", "{A0AE0BEB-442B-463D-995F-1AEEACE32BD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NormalDistributionVisualizer", "NormalDistributionVisualizer\NormalDistributionVisualizer.csproj", "{12C7CAB5-35EF-4FC5-88C1-2535B174B190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponGeneratorDLLFramework", "WeaponGeneratorDLLFramework\WeaponGeneratorDLLFramework.csproj", "{330016D6-72E4-4151-B862-0A6526C8E467}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{A0AE0BEB-442B-463D-995F-1AEEACE32BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0AE0BEB-442B-463D-995F-1AEEACE32BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0AE0BEB-442B-463D-995F-1AEEACE32BD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C7CAB5-35EF-4FC5-88C1-2535B174B190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C7CAB5-35EF-4FC5-88C1-2535B174B190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C7CAB5-35EF-4FC5-88C1-2535B174B190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C7CAB5-35EF-4FC5-88C1-2535B174B190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{330016D6-72E4-4151-B862-0A6526C8E467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{330016D6-72E4-4151-B862-0A6526C8E467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{330016D6-72E4-4151-B862-0A6526C8E467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{330016D6-72E4-4151-B862-0A6526C8E467}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
