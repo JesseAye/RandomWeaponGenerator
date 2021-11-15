@@ -14,7 +14,7 @@ namespace NormalDistributionVisualizer
 {
 	public partial class NormalDistributionVisualizer : Form
 	{
-		private ushort AmountToGenerate = 1000;
+		private readonly ushort AmountToGenerate = 1000;
 
 		public NormalDistributionVisualizer()
 		{
@@ -55,14 +55,43 @@ namespace NormalDistributionVisualizer
 			GenerateChart();
 		}
 
+		private void btnGenerateNew_Click(object sender, EventArgs e)
+		{
+			GenerateChart();
+		}
+
 		private void GenerateChart()
 		{
+			//TODO: Issues generating chart:
+				//Revolver:
+				//Handgun:
+				//Bolt Action Rifle:
+					//Effective Range broken
+				//Semiautomatic Rifle:
+					//Effective Range broken
+				//Break Action Shotgun:
+				//Pump Action Shotgun:
+				//Semiautomatic Shotgun:
+				//Submachine Gun:
+					//Fire Rate not evenly distributed
+					//Draw Speed not generating chart
+				//Heavy Machine Gun:
+					//Clip Size
+				//Light Machine Gun:
+				//Assault Rifle:
+			//TODO: Switching between Break Action Shotgun and Pump Action Shotgun with Clip Size selected does not update range of graph
+			//TODO: Heavy Machine Gun Clip Size seems to break the chart, and does not group into intervals correctly
 			if (cbWeapon.SelectedIndex > -1)
 			{
 				if (cbStat.SelectedIndex > -1)
 				{
 					WeaponGenerator.WeaponGenerator weaponGen = new WeaponGenerator.WeaponGenerator();
+					Weapon[] weapons;
 					Series series = new Series();
+					ushort lower, upper, interval;
+					ushort groupByLimit = 30;
+					ushort[] statArray;
+					Dictionary<string, int> groupedArray = new Dictionary<string, int>();
 
 					series.ChartType = SeriesChartType.Column;
 					series.Name = "series";
@@ -72,8 +101,8 @@ namespace NormalDistributionVisualizer
 
 					weaponGen.AllWeaponsEqualChance(0);
 					weaponGen.SetChance((WeaponType)cbWeapon.SelectedItem, 1);
-					Weapon[] weapons = weaponGen.GenerateRandomWeapon(AmountToGenerate);
-					ushort[] statArray = new ushort[AmountToGenerate];
+					weapons = weaponGen.GenerateRandomWeapon(AmountToGenerate);
+					statArray = new ushort[AmountToGenerate];
 
 					switch (cbStat.SelectedItem.ToString())
 					{
@@ -82,6 +111,10 @@ namespace NormalDistributionVisualizer
 							{
 								statArray[i] = weapons[i].ClipSize;
 							}
+
+							lower = weapons[0].LowerClipLimit;
+							upper = weapons[0].UpperClipLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Effective Range":
@@ -89,6 +122,10 @@ namespace NormalDistributionVisualizer
 							{
 								statArray[i] = weapons[i].EffectiveRange;
 							}
+
+							lower = weapons[0].LowerEffectiveRangeLimit;
+							upper = weapons[0].UpperEffectiveRangeLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Absolute Max Range":
@@ -96,6 +133,10 @@ namespace NormalDistributionVisualizer
 							{
 								statArray[i] = weapons[i].AbsoluteMaxRange;
 							}
+
+							lower = weapons[0].LowerEffectiveRangeLimit;
+							upper = (ushort)(weapons[0].UpperEffectiveRangeLimit * 2);
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Weight":
@@ -103,6 +144,10 @@ namespace NormalDistributionVisualizer
 							{
 								statArray[i] = weapons[i].Weight;
 							}
+
+							lower = weapons[0].LowerWeightLimit;
+							upper = weapons[0].UpperWeightLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Reload Time":
@@ -110,35 +155,75 @@ namespace NormalDistributionVisualizer
 							{
 								statArray[i] = Convert.ToUInt16(weapons[i].ReloadTime.TotalMilliseconds);
 							}
+
+							lower = weapons[0].LowerReloadTimeLimit;
+							upper = weapons[0].UpperReloadTimeLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Fire Rate":
 							for (int i = 0; i < AmountToGenerate; i++)
 							{
-								statArray[i] = weapons[i].CyclicRate;
+								statArray[i] = Convert.ToUInt16(weapons[i].FireRate.TotalMilliseconds);
 							}
+
+							lower = weapons[0].LowerFireRateLimit;
+							upper = weapons[0].UpperFireRateLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						case "Draw Speed":
 							for (int i = 0; i < AmountToGenerate; i++)
 							{
-								statArray[i] = Convert.ToUInt16(weapons[i].ReloadTime.TotalMilliseconds);
+								statArray[i] = Convert.ToUInt16(weapons[i].DrawSpeed.TotalMilliseconds);
 							}
+
+							lower = weapons[0].LowerDrawSpeedLimit;
+							upper = weapons[0].UpperDrawSpeedLimit;
+							interval = (ushort)((upper - lower) / groupByLimit);
 							break;
 
 						default:
-							break;
+							throw new Exception();
 					}
 
-					if (statArray.Distinct().Count() > 25)
+					if (statArray.Distinct().Count() > groupByLimit)
 					{
+						groupedArray = statArray.OrderBy(a => a)
+														   .GroupBy(b =>
+														   {
+															   for (int i = 0; i < groupByLimit; i++)
+															   {
+																   if (b <= (lower + (interval * i)))
+																   {
+																	   return (lower + (interval * (i - 1))) + " - " + (lower + (interval * i));
+																   }
+															   }
+
+															   return (lower + (interval * (groupByLimit - 1))) + " <";
+														   })
+														   .ToDictionary(k => k.Key, v => v.Count());
 
 					}
 
-					foreach (ushort item in statArray.Distinct())
+					else
 					{
-						chartDistribution.Series["series"].Points.AddXY(item, statArray.Where(a => a == item).Count());
+						groupedArray = statArray.OrderBy(a => a)
+												.GroupBy(b => b)
+												.Select(c => new
+												{
+													Value = c.Key,
+													Count = c.Count()
+												})
+												.ToDictionary(d => d.Value.ToString(), d => d.Count);
 					}
+
+					foreach (KeyValuePair<string, int> bar in groupedArray)
+					{
+						chartDistribution.Series["series"].Points.AddXY(bar.Key, bar.Value);
+					}
+
+					chartDistribution.Series["series"].IsValueShownAsLabel = true;
 				}
 			}
 		}

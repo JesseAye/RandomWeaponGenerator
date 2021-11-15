@@ -201,7 +201,6 @@ namespace WeaponGenerator
 			float Mean = ((LeftTail + RightTail) / 2) * ModifyMeanPercent;
 			float StdDev = (RightTail - Mean) / StandardDeviations;
 			float generatedFloat;
-			ushort value;
 
 			do
 			{
@@ -212,13 +211,11 @@ namespace WeaponGenerator
 				generatedFloat = Mean + StdDev * randStdNormal;
 				if (generatedFloat < ushort.MinValue || generatedFloat > ushort.MaxValue)
 				{
-					value = 0;
 					continue;
 				}
-				value = Convert.ToUInt16(Decimal.Round(Convert.ToDecimal(generatedFloat), 0, MidpointRounding.AwayFromZero));
-			} while ((value < LeftTail) || (value > RightTail));
+			} while ((generatedFloat < LeftTail) || (generatedFloat > RightTail));
 
-			return value;
+			return generatedFloat;
 		}
 	}
 }

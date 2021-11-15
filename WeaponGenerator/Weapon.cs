@@ -328,7 +328,7 @@ namespace WeaponGenerator
 		{
 			_clipSize = RandomExtension.NormalDistribution(LowerClipLimit, UpperClipLimit, 1, 3);
 			_effectiveRange = RandomExtension.NormalDistribution(LowerEffectiveRangeLimit, UpperEffectiveRangeLimit, 1, 3);
-			_absMaxRange = (ushort)(_effectiveRange * RandomExtension.NormalDistribution_f(1, 2, 1, .5f)); //TODO: Not producing expected values
+			_absMaxRange = (ushort)(_effectiveRange * RandomExtension.NormalDistribution_f(1, 2, 1, .5f));
 			_weight = RandomExtension.NormalDistribution(LowerWeightLimit, UpperWeightLimit, 1, 3);
 			_reloadTime = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerReloadTimeLimit, UpperReloadTimeLimit, 1, 3));
 			_fireRate = TimeSpan.FromMilliseconds(RandomExtension.NormalDistribution(LowerFireRateLimit, UpperFireRateLimit, 1, 3));
