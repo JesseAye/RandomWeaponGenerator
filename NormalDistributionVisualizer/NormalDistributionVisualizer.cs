@@ -14,7 +14,7 @@ namespace NormalDistributionVisualizer
 {
 	public partial class NormalDistributionVisualizer : Form
 	{
-		private readonly ushort AmountToGenerate = 1000;
+		private readonly ushort AmountToGenerate = 10000;
 
 		public NormalDistributionVisualizer()
 		{
@@ -62,25 +62,7 @@ namespace NormalDistributionVisualizer
 
 		private void GenerateChart()
 		{
-			//TODO: Issues generating chart:
-				//Revolver:
-				//Handgun:
-				//Bolt Action Rifle:
-					//Effective Range broken
-				//Semiautomatic Rifle:
-					//Effective Range broken
-				//Break Action Shotgun:
-				//Pump Action Shotgun:
-				//Semiautomatic Shotgun:
-				//Submachine Gun:
-					//Fire Rate not evenly distributed
-					//Draw Speed not generating chart
-				//Heavy Machine Gun:
-					//Clip Size
-				//Light Machine Gun:
-				//Assault Rifle:
-			//TODO: Switching between Break Action Shotgun and Pump Action Shotgun with Clip Size selected does not update range of graph
-			//TODO: Heavy Machine Gun Clip Size seems to break the chart, and does not group into intervals correctly
+			//TODO: Investigate issue with Automatic class weapons not getting a bell curve
 			if (cbWeapon.SelectedIndex > -1)
 			{
 				if (cbStat.SelectedIndex > -1)
@@ -88,7 +70,8 @@ namespace NormalDistributionVisualizer
 					WeaponGenerator.WeaponGenerator weaponGen = new WeaponGenerator.WeaponGenerator();
 					Weapon[] weapons;
 					Series series = new Series();
-					ushort lower, upper, interval;
+					ushort lower, upper;
+					Decimal interval;
 					ushort groupByLimit = 30;
 					ushort[] statArray;
 					Dictionary<string, int> groupedArray = new Dictionary<string, int>();
@@ -114,7 +97,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerClipLimit;
 							upper = weapons[0].UpperClipLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						case "Effective Range":
@@ -125,7 +108,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerEffectiveRangeLimit;
 							upper = weapons[0].UpperEffectiveRangeLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						case "Absolute Max Range":
@@ -136,7 +119,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerEffectiveRangeLimit;
 							upper = (ushort)(weapons[0].UpperEffectiveRangeLimit * 2);
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Weight":
@@ -147,7 +130,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerWeightLimit;
 							upper = weapons[0].UpperWeightLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						case "Reload Time":
@@ -158,7 +141,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerReloadTimeLimit;
 							upper = weapons[0].UpperReloadTimeLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						case "Fire Rate":
@@ -169,7 +152,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerFireRateLimit;
 							upper = weapons[0].UpperFireRateLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						case "Draw Speed":
@@ -180,7 +163,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerDrawSpeedLimit;
 							upper = weapons[0].UpperDrawSpeedLimit;
-							interval = (ushort)((upper - lower) / groupByLimit);
+							interval = (upper - lower) / groupByLimit;
 							break;
 
 						default:
@@ -190,20 +173,36 @@ namespace NormalDistributionVisualizer
 					if (statArray.Distinct().Count() > groupByLimit)
 					{
 						groupedArray = statArray.OrderBy(a => a)
-														   .GroupBy(b =>
-														   {
-															   for (int i = 0; i < groupByLimit; i++)
-															   {
-																   if (b <= (lower + (interval * i)))
-																   {
-																	   return (lower + (interval * (i - 1))) + " - " + (lower + (interval * i));
-																   }
-															   }
+												.GroupBy(b =>
+												{
+													for (int i = 0; i < groupByLimit; i++)
+													{
+														if (b <= (lower + (interval * i)))
+														{
+															return  (lower + decimal.Round(interval * (i - 1), 0, MidpointRounding.AwayFromZero)).ToString();
+														}
+													}
 
-															   return (lower + (interval * (groupByLimit - 1))) + " <";
-														   })
-														   .ToDictionary(k => k.Key, v => v.Count());
+													return (lower + (interval * (groupByLimit - 1))) + " <";
+												})
+												.ToDictionary(k => k.Key, v => v.Count());
 
+						for (int i = 0; i < groupByLimit; i++)
+						{
+							string key = (lower + decimal.Round(interval * (i - 1), 0, MidpointRounding.AwayFromZero)).ToString();
+							if (groupedArray.ContainsKey(key))
+							{
+								chartDistribution.Series["series"].Points.AddXY(key, groupedArray[key]);
+							}
+
+							else
+							{
+								if (lower + (interval * i) < upper)
+								{
+									chartDistribution.Series["series"].Points.AddXY(key, 0);
+								}
+							}
+						}
 					}
 
 					else
@@ -216,14 +215,29 @@ namespace NormalDistributionVisualizer
 													Count = c.Count()
 												})
 												.ToDictionary(d => d.Value.ToString(), d => d.Count);
-					}
 
-					foreach (KeyValuePair<string, int> bar in groupedArray)
-					{
-						chartDistribution.Series["series"].Points.AddXY(bar.Key, bar.Value);
+						for (int i = lower; i <= upper; i++)
+						{
+							if (groupedArray.ContainsKey(i.ToString()))
+							{
+								chartDistribution.Series["series"].Points.AddXY(i.ToString(), groupedArray[i.ToString()]);
+							}
+
+							else
+							{
+								chartDistribution.Series["series"].Points.AddXY(i.ToString(), 0);
+							}
+						}
 					}
 
 					chartDistribution.Series["series"].IsValueShownAsLabel = true;
+
+					txtLowerLimit.Enabled = true;
+					txtUpperLimit.Enabled = true;
+					txtLowerLimit.Text = lower.ToString();
+					txtUpperLimit.Text = upper.ToString();
+					txtLowerLimit.Enabled = false;
+					txtUpperLimit.Enabled = false;
 				}
 			}
 		}

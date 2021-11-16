@@ -29,9 +29,9 @@ namespace NormalDistributionVisualizer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.chartDistribution = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.cbWeapon = new System.Windows.Forms.ComboBox();
 			this.cbStat = new System.Windows.Forms.ComboBox();
@@ -45,16 +45,16 @@ namespace NormalDistributionVisualizer
 			// 
 			// chartDistribution
 			// 
-			chartArea1.Name = "ChartArea1";
-			this.chartDistribution.ChartAreas.Add(chartArea1);
-			legend1.Name = "Legend1";
-			this.chartDistribution.Legends.Add(legend1);
+			chartArea2.Name = "ChartArea1";
+			this.chartDistribution.ChartAreas.Add(chartArea2);
+			legend2.Name = "Legend1";
+			this.chartDistribution.Legends.Add(legend2);
 			this.chartDistribution.Location = new System.Drawing.Point(12, 51);
 			this.chartDistribution.Name = "chartDistribution";
-			series1.ChartArea = "ChartArea1";
-			series1.Legend = "Legend1";
-			series1.Name = "Series1";
-			this.chartDistribution.Series.Add(series1);
+			series2.ChartArea = "ChartArea1";
+			series2.Legend = "Legend1";
+			series2.Name = "Series1";
+			this.chartDistribution.Series.Add(series2);
 			this.chartDistribution.Size = new System.Drawing.Size(1700, 651);
 			this.chartDistribution.TabIndex = 0;
 			this.chartDistribution.Text = "chart1";
@@ -88,6 +88,7 @@ namespace NormalDistributionVisualizer
 			// 
 			// txtLowerLimit
 			// 
+			this.txtLowerLimit.Enabled = false;
 			this.txtLowerLimit.Location = new System.Drawing.Point(427, 12);
 			this.txtLowerLimit.Name = "txtLowerLimit";
 			this.txtLowerLimit.Size = new System.Drawing.Size(100, 22);
@@ -95,6 +96,7 @@ namespace NormalDistributionVisualizer
 			// 
 			// txtUpperLimit
 			// 
+			this.txtUpperLimit.Enabled = false;
 			this.txtUpperLimit.Location = new System.Drawing.Point(619, 12);
 			this.txtUpperLimit.Name = "txtUpperLimit";
 			this.txtUpperLimit.Size = new System.Drawing.Size(100, 22);
