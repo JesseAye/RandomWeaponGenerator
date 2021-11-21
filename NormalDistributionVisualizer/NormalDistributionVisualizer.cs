@@ -62,7 +62,6 @@ namespace NormalDistributionVisualizer
 
 		private void GenerateChart()
 		{
-			//TODO: Investigate issue with Automatic class weapons not getting a bell curve
 			if (cbWeapon.SelectedIndex > -1)
 			{
 				if (cbStat.SelectedIndex > -1)
@@ -97,7 +96,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerClipLimit;
 							upper = weapons[0].UpperClipLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Effective Range":
@@ -108,7 +107,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerEffectiveRangeLimit;
 							upper = weapons[0].UpperEffectiveRangeLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Absolute Max Range":
@@ -130,7 +129,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerWeightLimit;
 							upper = weapons[0].UpperWeightLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Reload Time":
@@ -141,7 +140,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerReloadTimeLimit;
 							upper = weapons[0].UpperReloadTimeLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Fire Rate":
@@ -152,7 +151,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerFireRateLimit;
 							upper = weapons[0].UpperFireRateLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						case "Draw Speed":
@@ -163,7 +162,7 @@ namespace NormalDistributionVisualizer
 
 							lower = weapons[0].LowerDrawSpeedLimit;
 							upper = weapons[0].UpperDrawSpeedLimit;
-							interval = (upper - lower) / groupByLimit;
+							interval = (decimal)(upper - lower) / groupByLimit;
 							break;
 
 						default:
@@ -175,21 +174,21 @@ namespace NormalDistributionVisualizer
 						groupedArray = statArray.OrderBy(a => a)
 												.GroupBy(b =>
 												{
-													for (int i = 0; i < groupByLimit; i++)
+													for (int i = 0; i < (groupByLimit - 1); i++)
 													{
-														if (b <= (lower + (interval * i)))
+														if (b >= (lower + (interval * i)) && (b < (lower + (interval * (i + 1)))))
 														{
-															return  (lower + decimal.Round(interval * (i - 1), 0, MidpointRounding.AwayFromZero)).ToString();
+															return (lower + decimal.Round(interval * i, 0, MidpointRounding.AwayFromZero)).ToString();
 														}
 													}
 
-													return (lower + (interval * (groupByLimit - 1))) + " <";
+													return (lower + decimal.Round(interval * (groupByLimit - 1), 0, MidpointRounding.AwayFromZero)).ToString();
 												})
 												.ToDictionary(k => k.Key, v => v.Count());
 
 						for (int i = 0; i < groupByLimit; i++)
 						{
-							string key = (lower + decimal.Round(interval * (i - 1), 0, MidpointRounding.AwayFromZero)).ToString();
+							string key = (lower + decimal.Round(interval * i, 0, MidpointRounding.AwayFromZero)).ToString();
 							if (groupedArray.ContainsKey(key))
 							{
 								chartDistribution.Series["series"].Points.AddXY(key, groupedArray[key]);
